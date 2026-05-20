@@ -40,14 +40,18 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="w-full py-16 px-6 bg-white">
+    <section id="experience" className="w-full py-16 px-6 bg-[#faf9f7]">
       {/* Section Heading */}
       <div className="text-center mb-16">
-        <h2 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">
+        <h2 className="text-xs font-mono tracking-widest text-cyan-500 uppercase mb-3">
           Career Journey
         </h2>
-        <h3 className="text-3xl md:text-4xl font-bold text-neutral-900">
-          My Experience
+        {/* Accent Line */}
+        <div className="w-16 h-[2px] bg-cyan-500 mx-auto mb-4 rounded-full"></div>
+
+        <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
+          <span className="text-black">My</span>{" "}
+          <span className="text-cyan-500">Experience</span>
         </h3>
       </div>
 
@@ -56,7 +60,7 @@ export default function Experience() {
         {experiences.map((exp) => (
           <div
             key={exp.id}
-            className="group relative w-full rounded-2xl bg-white border border-gray-100 p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-blue-100"
+            className="group relative w-full rounded-2xl bg-[#efefed] border border-gray-200 p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-blue-100"
           >
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
               {/* Header: Logo & Info */}
@@ -113,7 +117,7 @@ export default function Experience() {
             <div className="mt-8 pt-6 border-t border-gray-100 flex flex-wrap gap-3">
               {exp.techStack.map((tech) => (
                 <div key={tech.id} className="relative group/tech">
-                  <div className="w-10 h-10 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center hover:border-blue-300 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-[#e2e1df] border border-[#cccac7] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
                     <img
                       src={tech.img}
                       alt={tech.name}

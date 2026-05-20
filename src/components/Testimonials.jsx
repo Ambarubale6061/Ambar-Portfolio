@@ -1,7 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useRef, useEffect } from "react";
+import {
+  motion,
+  useMotionValue,
+  useAnimationFrame,
+  animate,
+} from "framer-motion";
 
 const testimonials = [
   {
@@ -41,51 +46,164 @@ const testimonials = [
   },
 ];
 
+const SPEED = 0.045; // px per ms — ~45px/s at 60fps
+
 export default function Testimonials() {
-  const [isPaused, setIsPaused] = useState(false);
+  const x = useMotionValue(0);
+  const isPausedRef = useRef(false);
+  const isDraggingRef = useRef(false);
+  const trackRef = useRef(null);
+  const halfWidthRef = useRef(0);
+
+  // Pointer drag state
+  const pointerStartXRef = useRef(0);
+  const motionStartXRef = useRef(0);
+  const lastPointerXRef = useRef(0);
+  const velocityRef = useRef(0);
+
+  // Measure the true pixel width of one card set; re-measure on resize
+  useEffect(() => {
+    const measure = () => {
+      if (trackRef.current) {
+        halfWidthRef.current = trackRef.current.scrollWidth / 2;
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // Auto-scroll: runs every frame, skipped while paused or dragging
+  useAnimationFrame((_, delta) => {
+    if (isPausedRef.current || isDraggingRef.current) return;
+    const half = halfWidthRef.current;
+    if (!half) return;
+    let current = x.get();
+    current -= delta * SPEED;
+    if (current <= -half) current += half;
+    x.set(current);
+  });
+
+  // Normalise x into the seamless loop range [-half, 0)
+  const normalise = (val) => {
+    const half = halfWidthRef.current;
+    if (!half) return val;
+    let n = val % half;
+    if (n > 0) n -= half;
+    return n;
+  };
+
+  const handlePointerDown = (e) => {
+    isDraggingRef.current = true;
+    isPausedRef.current = true;
+    pointerStartXRef.current = e.clientX;
+    motionStartXRef.current = x.get();
+    lastPointerXRef.current = e.clientX;
+    velocityRef.current = 0;
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current) return;
+    const delta = e.clientX - lastPointerXRef.current;
+    velocityRef.current = delta;
+    lastPointerXRef.current = e.clientX;
+
+    const half = halfWidthRef.current;
+    if (!half) return;
+
+    let newX = x.get() + delta;
+    if (newX > 0) newX -= half;
+    if (newX <= -half) newX += half;
+    x.set(newX);
+  };
+
+  const handlePointerUp = () => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+
+    const v = velocityRef.current;
+    const half = halfWidthRef.current;
+
+    if (Math.abs(v) > 1 && half) {
+      const momentum = v * 18;
+      const target = normalise(x.get() + momentum);
+      animate(x, target, {
+        duration: 0.55,
+        ease: [0.25, 0.46, 0.45, 0.94],
+        onComplete: () => {
+          isPausedRef.current = false;
+        },
+      });
+    } else {
+      isPausedRef.current = false;
+    }
+  };
 
   return (
     <section
       id="testimonials"
-      className="w-full py-20 overflow-hidden bg-white"
+      className="w-full py-20 overflow-hidden bg-[#faf9f7]"
     >
-      {/* Section Heading */}
+      {/* Section Heading — centred */}
       <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
-        <h2 className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">
+        <h2 className="text-xs font-mono tracking-widest text-cyan-500 uppercase mb-3">
           Testimonials
         </h2>
-        <h3 className="text-3xl md:text-4xl font-bold text-gray-900">
-          Kind Words From Satisfied Clients
+
+        {/* Accent Line */}
+        <div className="w-16 h-[2px] bg-cyan-500 mx-auto mb-4 rounded-full"></div>
+
+        <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
+          <span className="text-black">Kind Words From</span>{" "}
+          <span className="text-cyan-500">Satisfied Clients</span>
         </h3>
       </div>
 
       {/* Marquee Container with Fade Mask */}
       <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
         <motion.div
+          ref={trackRef}
           className="flex gap-6 cursor-grab active:cursor-grabbing"
-          animate={{ x: isPaused ? 0 : ["0%", "-50%"] }}
-          transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
+          style={{ x }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
         >
           {[...testimonials, ...testimonials].map((t, index) => (
             <div
               key={index}
-              className="p-8 bg-gray-50 border border-gray-100 rounded-2xl italic text-gray-600 flex flex-col justify-between shrink-0 
-              w-[280px] sm:w-[350px] md:w-[400px] min-h-[280px] transition-all hover:bg-gray-100/50"
+              className="flex flex-col justify-between shrink-0
+                         w-[280px] sm:w-[350px] md:w-[400px] min-h-[280px]
+                         p-7 bg-[#efefed] border border-gray-100 rounded-2xl shadow-sm
+                         hover:shadow-md hover:border-gray-200 transition-all duration-300
+                         select-none"
             >
-              <span className="text-5xl text-gray-200 font-serif select-none">
-                “
-              </span>
+              {/* Top row: quote mark + company pill */}
+              <div className="flex items-start justify-between mb-3">
+                <span className="text-5xl text-gray-200 font-serif leading-none select-none">
+                  &ldquo;
+                </span>
+                <span
+                  className="text-[10px] font-bold tracking-widest uppercase text-gray-400
+                                 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full"
+                >
+                  {t.company}
+                </span>
+              </div>
 
-              <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-4">
-                {t.company}
+              {/* Testimonial text */}
+              <p className="text-sm leading-relaxed italic text-gray-500 flex-grow mb-6">
+                {t.text}
               </p>
 
-              <p className="text-sm leading-relaxed mb-8 flex-grow">{t.text}</p>
-
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-200 border border-gray-200">
+              {/* Divider + Author */}
+              <div className="flex items-center gap-3 pt-5 border-t border-gray-100">
+                <div
+                  className="w-10 h-10 rounded-full overflow-hidden shrink-0
+                                ring-2 ring-gray-100 bg-gray-200"
+                >
                   {t.image ? (
                     <img
                       src={t.image}
@@ -93,7 +211,7 @@ export default function Testimonials() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-300 text-xs font-bold">
+                    <div className="w-full h-full flex items-center justify-center bg-gray-300 text-xs font-bold text-gray-600">
                       {t.name.substring(0, 2).toUpperCase()}
                     </div>
                   )}
