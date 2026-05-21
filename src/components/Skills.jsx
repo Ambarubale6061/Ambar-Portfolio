@@ -211,17 +211,31 @@ const SkillCard = memo(function SkillCard({ skills, title, blob }) {
   return (
     <div
       ref={cardRef}
-      className="relative h-[340px] w-full bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+      className="relative h-[340px] w-full rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+      style={{
+        background: `linear-gradient(145deg, #ffffff 0%, ${blob}0d 100%)`,
+        border: `1px solid ${blob}35`,
+        boxShadow: `0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px ${blob}12`,
+      }}
     >
-      {/* Decorative accent glow — light & subtle on white bg */}
+      {/* Decorative accent glow — richer saturation for visual depth */}
       <div
-        className="absolute -top-16 -left-16 w-48 h-48 rounded-full blur-[80px] opacity-[0.12] pointer-events-none"
+        className="absolute -top-16 -left-16 w-56 h-56 rounded-full blur-[90px] opacity-[0.22] pointer-events-none"
+        style={{ backgroundColor: blob }}
+      />
+
+      {/* Subtle bottom-right counter-glow for layered depth */}
+      <div
+        className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full blur-[70px] opacity-[0.10] pointer-events-none"
         style={{ backgroundColor: blob }}
       />
 
       {/* Card title */}
       <div className="relative z-20 pt-6 text-center">
-        <h3 className="text-[10px] font-semibold tracking-[0.18em] uppercase text-gray-400">
+        <h3
+          className="text-[10px] font-semibold tracking-[0.18em] uppercase"
+          style={{ color: blob }}
+        >
           {title}
         </h3>
       </div>
@@ -277,19 +291,27 @@ export default function Skills() {
   return (
     <section id="skills" className="w-full py-20 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-        {/* Section header — matches Projects section style */}
+        {/* Section header — matches services.jsx heading style exactly */}
         <div className="mb-12 text-center">
-          <p className="text-xs font-mono tracking-widest text-cyan-500 uppercase mb-3">
-            Tech Stack
-          </p>
-
-          {/* Accent Line */}
-          <div className="w-16 h-[2px] bg-cyan-500 mx-auto mb-4 rounded-full"></div>
-
-          <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
-            <span className="text-black">Skills &amp;</span>{" "}
-            <span className="text-cyan-500">Expertise</span>
+          <h3 className="text-2xl sm:text-4xl font-bold mb-4 leading-tight">
+            <span className="text-gray-900">Skills &amp;</span>{" "}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
+              }}
+            >
+              Expertise
+            </span>
           </h3>
+
+          {/* ↓ underline accent below heading — mirrors services.jsx */}
+          <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
+
+          <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
+            Tools and technologies used to build modern web applications.
+          </p>
         </div>
 
         {/* 4-column orbit grid */}

@@ -62,7 +62,7 @@ export default function About() {
               <span className="text-cyan-500">Know Me</span>
             </h3>
 
-            <div className="space-y-4 text-gray-500 text-sm sm:text-base leading-relaxed font-light">
+            <div className="space-y-4 text-black text-sm sm:text-base leading-relaxed font-light">
               <p>
                 I am Ambar, a Software Developer who enjoys building efficient,
                 scalable, and user-friendly web applications. I have hands-on
