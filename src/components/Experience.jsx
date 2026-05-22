@@ -13,13 +13,9 @@ const experiences = [
     certificateUrl: "/Certi.pdf",
     descBullets: [
       "Built a full-stack Nurse Management System using MERN stack (React, Node.js, Express, MongoDB) and Firebase, enabling efficient staff management, data handling, and real-time updates.",
-
       "Developed and enhanced a WhatsApp bot system using Java and Spring Boot, implementing new features, optimizing workflows, and improving automated user interactions.",
-
       "Designed and contributed to multiple solo and team-based projects, collaborating with developers to deliver scalable and production-ready solutions.",
-
       "Developed and maintained the organization's main website, improving UI/UX, performance, and overall user engagement.",
-
       "Gained hands-on experience in full-stack development, API integration, and real-world problem solving, delivering high-quality features in a collaborative environment.",
     ],
     techStack: [
@@ -41,18 +37,25 @@ const experiences = [
 export default function Experience() {
   return (
     <section id="experience" className="w-full py-16 px-6 bg-[#faf9f7]">
-      {/* Section Heading */}
-      <div className="text-center mb-16">
-        <h2 className="text-xs font-mono tracking-widest text-cyan-500 uppercase mb-3">
-          Career Journey
-        </h2>
-        {/* Accent Line */}
-        <div className="w-16 h-[2px] bg-cyan-500 mx-auto mb-4 rounded-full"></div>
-
-        <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
-          <span className="text-black">My</span>{" "}
-          <span className="text-cyan-500">Experience</span>
-        </h3>
+      {/* ── Heading — matches services.jsx style ── */}
+      <div className="text-center mb-14">
+        <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">
+          My{" "}
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
+            }}
+          >
+            Experience
+          </span>
+        </p>
+        <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
+        <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
+          Hands-on experience building real-world products in collaborative
+          environments.
+        </p>
       </div>
 
       {/* Experience Cards Container */}

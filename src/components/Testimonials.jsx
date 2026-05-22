@@ -145,19 +145,24 @@ export default function Testimonials() {
       id="testimonials"
       className="w-full py-20 overflow-hidden bg-[#faf9f7]"
     >
-      {/* Section Heading — centred */}
+      {/* Section Heading — matches services.jsx style */}
       <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
-        <h2 className="text-xs font-mono tracking-widest text-cyan-500 uppercase mb-3">
-          Testimonials
-        </h2>
-
-        {/* Accent Line */}
-        <div className="w-16 h-[2px] bg-cyan-500 mx-auto mb-4 rounded-full"></div>
-
-        <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
-          <span className="text-black">Kind Words From</span>{" "}
-          <span className="text-cyan-500">Satisfied Clients</span>
+        <h3 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">
+          Kind Words From{" "}
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
+            }}
+          >
+            Satisfied Clients
+          </span>
         </h3>
+        <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
+        <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
+          What the people I&apos;ve worked with have to say.
+        </p>
       </div>
 
       {/* Marquee Container with Fade Mask */}
@@ -176,13 +181,13 @@ export default function Testimonials() {
               key={index}
               className="flex flex-col justify-between shrink-0
                          w-[280px] sm:w-[350px] md:w-[400px] min-h-[280px]
-                         p-7 bg-[#efefed] border border-gray-100 rounded-2xl shadow-sm
-                         hover:shadow-md hover:border-gray-200 transition-all duration-300
+                         p-7 bg-[#e2e1df] border border-gray-200 rounded-2xl shadow-sm
+                         hover:shadow-md hover:border-gray-300 transition-all duration-300
                          select-none"
             >
               {/* Top row: quote mark + company pill */}
               <div className="flex items-start justify-between mb-3">
-                <span className="text-5xl text-gray-200 font-serif leading-none select-none">
+                <span className="text-5xl text-gray-400 font-serif leading-none select-none">
                   &ldquo;
                 </span>
                 <span
@@ -199,7 +204,7 @@ export default function Testimonials() {
               </p>
 
               {/* Divider + Author */}
-              <div className="flex items-center gap-3 pt-5 border-t border-gray-100">
+              <div className="flex items-center gap-3 pt-5 border-t border-gray-200">
                 <div
                   className="w-10 h-10 rounded-full overflow-hidden shrink-0
                                 ring-2 ring-gray-100 bg-gray-200"

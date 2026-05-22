@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, memo } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import {
   Atom,
   Layers,
@@ -37,7 +37,7 @@ import {
 const skillData = {
   interface: [
     { name: "React", Icon: Atom, color: "#0ea5e9" },
-    { name: "Next.js", Icon: Layers, color: "#111827" },
+    { name: "Next.js", Icon: Layers, color: "#a0aec0" },
     { name: "TypeScript", Icon: FileCode, color: "#3b82f6" },
     { name: "Tailwind", Icon: Sparkles, color: "#06b6d4" },
     { name: "Framer", Icon: Layout, color: "#ec4899" },
@@ -57,14 +57,14 @@ const skillData = {
     { name: "GraphQL", Icon: Share2, color: "#e10098" },
     { name: "Microservices", Icon: Cpu, color: "#f59e0b" },
     { name: "LangChain", Icon: GitBranch, color: "#6366f1" },
-    { name: "Express", Icon: Server, color: "#374151" },
+    { name: "Express", Icon: Server, color: "#a0aec0" },
   ],
   data: [
     { name: "PostgreSQL", Icon: DbIcon, color: "#6366f1" },
     { name: "Supabase", Icon: Zap, color: "#3ecf8e" },
     { name: "MongoDB", Icon: HardDrive, color: "#16a34a" },
     { name: "Redis", Icon: Zap, color: "#ef4444" },
-    { name: "Prisma", Icon: Braces, color: "#0f172a" },
+    { name: "Prisma", Icon: Braces, color: "#a0aec0" },
     { name: "Firebase", Icon: Cloud, color: "#f59e0b" },
     { name: "Elastic", Icon: SearchCode, color: "#f97316" },
     { name: "Vector DB", Icon: Hash, color: "#8b5cf6" },
@@ -74,8 +74,8 @@ const skillData = {
   workflow: [
     { name: "Docker", Icon: Boxes, color: "#2496ed" },
     { name: "AWS", Icon: Cloud, color: "#f97316" },
-    { name: "Git", Icon: GitCommit, color: "#111827" },
-    { name: "Vercel", Icon: Zap, color: "#111827" },
+    { name: "Git", Icon: GitCommit, color: "#a0aec0" },
+    { name: "Vercel", Icon: Zap, color: "#a0aec0" },
     { name: "Actions", Icon: Workflow, color: "#2088ff" },
     { name: "Linux", Icon: Terminal, color: "#ca8a04" },
     { name: "Postman", Icon: MessageSquare, color: "#ef6c37" },
@@ -86,9 +86,6 @@ const skillData = {
 };
 
 // ─── Shared RAF + IO system ───────────────────────────────────────────────────
-// ONE rAF loop + ONE visibilitychange listener for ALL cards combined.
-// Cards register their own tick fn; when all are offscreen the loop pauses.
-
 let rafId = 0;
 let isVisible = true;
 const tickSet = new Set();
@@ -128,7 +125,7 @@ if (typeof document !== "undefined") {
   );
 }
 
-// ─── Card metadata (title + accent colour for the glow blob) ─────────────────
+// ─── Card metadata ────────────────────────────────────────────────────────────
 const CARDS = [
   { key: "interface", title: "Interface & Experience", blob: "#0ea5e9" },
   { key: "core", title: "Core & Intelligence", blob: "#a855f7" },
@@ -146,7 +143,6 @@ const SkillCard = memo(function SkillCard({ skills, title, blob }) {
   useEffect(() => {
     const count = skills.length;
 
-    // One IO per card — shares the module-level rAF loop
     const io = new IntersectionObserver(
       ([entry]) => {
         inViewRef.current = entry.isIntersecting;
@@ -158,7 +154,7 @@ const SkillCard = memo(function SkillCard({ skills, title, blob }) {
     const tick = () => {
       if (!inViewRef.current) return;
 
-      rotRef.current += 0.25; // speed — tweak freely
+      rotRef.current += 0.25;
       const rotation = rotRef.current;
 
       for (let i = 0; i < count; i++) {
@@ -167,36 +163,68 @@ const SkillCard = memo(function SkillCard({ skills, title, blob }) {
 
         const angle = (i / count) * 360 + rotation;
         const rad = (angle * Math.PI) / 180;
-        const normalized = ((angle % 360) + 360) % 360;
-        // "active" = item crests the front of the ellipse
-        const isActive = normalized > 80 && normalized < 100;
 
-        const x = 118 * Math.cos(rad);
+        // ── Increased horizontal radius to fill the wider 2-column card
+        const x = 200 * Math.cos(rad);
         const y = 44 * Math.sin(rad);
         const scale = 0.62 + ((y + 44) / 88) * 0.46;
-        const alpha = Math.min(1, (y + 44) / 88 + 0.28);
 
-        // GPU-composited properties only — no layout thrashing
-        el.style.transform = `translate(${x}px,${y + 18}px) scale(${scale})`;
-        el.style.zIndex = String(Math.round(y + 100));
+        // Normalised angle 0–360
+        const norm = ((angle % 360) + 360) % 360;
+
+        // ── Narrowed visibility windows (18° → 10°) so only one item per slot
+        // Centre item: within ±10° of the front (270°)
+        const distFromFront = Math.min(
+          Math.abs(norm - 270),
+          360 - Math.abs(norm - 270),
+        );
+        const isCenter = distFromFront < 10;
+
+        // Side items: within ±10° of 210° or 330°
+        const distFrom210 = Math.min(
+          Math.abs(norm - 210),
+          360 - Math.abs(norm - 210),
+        );
+        const distFrom330 = Math.min(
+          Math.abs(norm - 330),
+          360 - Math.abs(norm - 330),
+        );
+        const isSide = distFrom210 < 10 || distFrom330 < 10;
+
+        // Only show center + two side items; hide everything else
+        const isItemVisible = isCenter || isSide;
+        const alpha = isItemVisible ? 1 : 0;
+        const blur = isCenter ? 0 : isSide ? 3 : 0;
+        const sideScale = isSide ? scale * 0.82 : scale;
+
+        el.style.transform = `translate(${x}px,${y + 18}px) scale(${isCenter ? scale : sideScale})`;
+        el.style.zIndex = String(isCenter ? 200 : isSide ? 100 : 0);
         el.style.opacity = String(alpha);
+        el.style.filter = blur > 0 ? `blur(${blur}px)` : "none";
+        el.style.pointerEvents = isItemVisible ? "auto" : "none";
 
-        const iconEl = el.querySelector(".sk-icon");
-        const labelEl = el.querySelector(".sk-label");
-
-        if (iconEl) {
-          iconEl.style.borderColor = isActive
-            ? skills[i].color
-            : "rgba(0,0,0,0.07)";
-          iconEl.style.backgroundColor = isActive
-            ? `${skills[i].color}12`
-            : "#f9fafb";
-          iconEl.style.boxShadow = isActive
-            ? `0 0 18px ${skills[i].color}28`
-            : "none";
+        // Box style per state
+        const boxEl = el.querySelector(".sk-box");
+        if (boxEl) {
+          if (isCenter) {
+            // ── Lightened: #1c1c1e → #2d2d31
+            boxEl.style.backgroundColor = "#2d2d31";
+            boxEl.style.border = `1px solid rgba(255,255,255,0.12)`;
+            boxEl.style.boxShadow = `0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06)`;
+            boxEl.style.transform = "scale(1.08)";
+          } else {
+            // ── Lightened: #2a2a2e → #38383c
+            boxEl.style.backgroundColor = "#38383c";
+            boxEl.style.border = `1px solid rgba(255,255,255,0.07)`;
+            boxEl.style.boxShadow = `0 2px 10px rgba(0,0,0,0.22)`;
+            boxEl.style.transform = "scale(1)";
+          }
         }
+
+        // Label colour per state
+        const labelEl = el.querySelector(".sk-label");
         if (labelEl) {
-          labelEl.style.opacity = isActive ? "1" : "0";
+          labelEl.style.color = isCenter ? "#ffffff" : "#9ca3af";
         }
       }
     };
@@ -213,18 +241,16 @@ const SkillCard = memo(function SkillCard({ skills, title, blob }) {
       ref={cardRef}
       className="relative h-[340px] w-full rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
       style={{
-        background: `linear-gradient(145deg, #ffffff 0%, ${blob}0d 100%)`,
-        border: `1px solid ${blob}35`,
-        boxShadow: `0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px ${blob}12`,
+        background: `linear-gradient(145deg, #e8e7e5 0%, ${blob}18 100%)`,
+        border: `1px solid ${blob}45`,
+        boxShadow: `0 2px 8px rgba(0,0,0,0.10), 0 0 0 1px ${blob}18`,
       }}
     >
-      {/* Decorative accent glow — richer saturation for visual depth */}
+      {/* Decorative accent glow */}
       <div
         className="absolute -top-16 -left-16 w-56 h-56 rounded-full blur-[90px] opacity-[0.22] pointer-events-none"
         style={{ backgroundColor: blob }}
       />
-
-      {/* Subtle bottom-right counter-glow for layered depth */}
       <div
         className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full blur-[70px] opacity-[0.10] pointer-events-none"
         style={{ backgroundColor: blob }}
@@ -240,7 +266,7 @@ const SkillCard = memo(function SkillCard({ skills, title, blob }) {
         </h3>
       </div>
 
-      {/* Orbit stage — absolutely positioned items are moved by the rAF tick */}
+      {/* Orbit stage */}
       <div className="relative w-full h-full flex justify-center items-center -mt-10">
         {skills.map((skill, index) => (
           <div
@@ -249,32 +275,35 @@ const SkillCard = memo(function SkillCard({ skills, title, blob }) {
               itemRefs.current[index] = el;
             }}
             className="absolute flex flex-col items-center"
-            style={{ willChange: "transform, opacity" }}
+            style={{
+              willChange: "transform, opacity, filter",
+              // ── Reduced transition time (120ms → 50ms) to minimise ghost overlap
+              transition: "filter 50ms ease, opacity 50ms ease",
+            }}
           >
-            {/* Icon bubble */}
+            {/* Icon + name box */}
             <div
-              className="sk-icon p-2.5 rounded-full border bg-gray-50"
+              className="sk-box flex flex-col items-center gap-2 px-3 py-3 rounded-2xl flex-shrink-0"
               style={{
-                borderColor: "rgba(0,0,0,0.07)",
+                // ── Lightened default: #2a2a2e → #38383c
+                backgroundColor: "#38383c",
+                border: "1px solid rgba(255,255,255,0.07)",
+                boxShadow: "0 2px 10px rgba(0,0,0,0.22)",
+                minWidth: "76px",
                 transition:
-                  "border-color 140ms, box-shadow 140ms, background-color 140ms",
+                  "background-color 140ms ease, box-shadow 140ms ease, transform 140ms ease",
               }}
             >
-              <skill.Icon
-                size={22}
-                style={{ color: skill.color }}
-                strokeWidth={1.6}
-              />
-            </div>
-
-            {/* Label — appears only when item is at front */}
-            <div
-              className="sk-label absolute top-full whitespace-nowrap pt-2 pointer-events-none"
-              style={{ opacity: 0, transition: "opacity 100ms" }}
-            >
+              <div className="w-9 h-9 flex items-center justify-center flex-shrink-0">
+                <skill.Icon
+                  size={24}
+                  style={{ color: skill.color }}
+                  strokeWidth={1.6}
+                />
+              </div>
               <span
-                className="text-[10px] font-bold tracking-widest uppercase"
-                style={{ color: skill.color }}
+                className="sk-label text-[9px] font-semibold tracking-wide text-center leading-tight"
+                style={{ color: "#9ca3af", transition: "color 140ms ease" }}
               >
                 {skill.name}
               </span>
@@ -291,7 +320,7 @@ export default function Skills() {
   return (
     <section id="skills" className="w-full py-20 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-        {/* Section header — matches services.jsx heading style exactly */}
+        {/* Section header */}
         <div className="mb-12 text-center">
           <h3 className="text-2xl sm:text-4xl font-bold mb-4 leading-tight">
             <span className="text-gray-900">Skills &amp;</span>{" "}
@@ -306,7 +335,6 @@ export default function Skills() {
             </span>
           </h3>
 
-          {/* ↓ underline accent below heading — mirrors services.jsx */}
           <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
 
           <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
@@ -314,8 +342,8 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* 4-column orbit grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* 4-column grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {CARDS.map(({ key, title, blob }) => (
             <SkillCard
               key={key}

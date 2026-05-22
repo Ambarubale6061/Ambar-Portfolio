@@ -136,14 +136,14 @@ function ProjectCard({ project }) {
     <div
       className="
         group relative flex flex-col h-full
-        bg-white border border-gray-100 rounded-2xl overflow-hidden
+        bg-slate-50 border border-gray-200 rounded-2xl overflow-hidden
         shadow-sm hover:shadow-lg
         transform-gpu hover:-translate-y-[1px]
         transition-[transform,box-shadow] duration-150 ease-out
       "
     >
       {/* ── Image panel ──────────────────────────────────────── */}
-      <div className="relative w-full h-44 shrink-0 overflow-hidden bg-gray-50">
+      <div className="relative w-full h-44 shrink-0 overflow-hidden bg-gray-100">
         {!imgError ? (
           <img
             src={project.image}
@@ -197,7 +197,7 @@ function ProjectCard({ project }) {
           {project.tech.map((t) => (
             <span
               key={t.name}
-              className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-gray-50 border border-gray-100 text-gray-600"
+              className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-gray-100 border border-gray-200 text-gray-600"
             >
               <img
                 src={t.logo}
@@ -212,7 +212,7 @@ function ProjectCard({ project }) {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-gray-100" />
+        <div className="h-px bg-gray-200" />
 
         {/* Action links */}
         <div className="flex items-center gap-4 text-xs font-medium text-gray-500">
@@ -246,17 +246,25 @@ export default function Projects() {
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         {/* Section header — centred */}
         <div className="mb-12 text-center">
-          <p className="text-xs font-mono tracking-widest text-cyan-500 uppercase mb-3">
-            Featured Projects
+          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">
+            Featured{" "}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
+              }}
+            >
+              Projects
+            </span>
           </p>
 
-          {/* Accent Line */}
-          <div className="w-16 h-[2px] bg-cyan-500 mx-auto mb-4 rounded-full"></div>
+          {/* Underline accent */}
+          <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
 
-          <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
-            <span className="text-black">Things I&apos;ve</span>{" "}
-            <span className="text-cyan-500">Built</span>
-          </h3>
+          <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-base">
+            A selection of my recent work showcasing full-stack capabilities
+          </p>
         </div>
 
         {/* 3-column grid */}

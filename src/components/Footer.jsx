@@ -14,7 +14,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full mt-32 bg-neutral-200/70 backdrop-blur-md border-t border-neutral-200/50 py-16 px-6 sm:px-12 md:px-20 lg:px-32 relative z-10">
+    <footer className="w-full bg-neutral-200/70 backdrop-blur-md border-t border-neutral-200/50 py-16 px-6 sm:px-12 md:px-20 lg:px-32 relative z-10">
       <div className="max-w-3xl mx-auto w-full flex flex-col items-center justify-center text-center">
         {/* Brand Name Title */}
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-2">
