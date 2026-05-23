@@ -36,10 +36,13 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="w-full py-16 px-6 bg-[#faf9f7]">
-      {/* ── Heading — matches services.jsx style ── */}
+    <section
+      id="experience"
+      className="w-full py-16 px-6 bg-transparent relative z-10"
+    >
+      {/* ── Heading ── */}
       <div className="text-center mb-14">
-        <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">
+        <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
           My{" "}
           <span
             className="bg-clip-text text-transparent"
@@ -63,7 +66,7 @@ export default function Experience() {
         {experiences.map((exp) => (
           <div
             key={exp.id}
-            className="group relative w-full rounded-2xl bg-[#efefed] border border-gray-200 p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-blue-100"
+            className="group relative w-full rounded-2xl bg-white/70 backdrop-blur-md border border-white/60 p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-blue-200"
           >
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
               {/* Header: Logo & Info */}
@@ -76,7 +79,7 @@ export default function Experience() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">
+                  <h3 className="text-xl font-bold text-slate-900">
                     {exp.title}
                   </h3>
                   <h4 className="text-sm font-semibold text-blue-600">
@@ -94,7 +97,7 @@ export default function Experience() {
               {exp.certificateUrl !== "#" && (
                 <button
                   onClick={() => window.open(exp.certificateUrl, "_blank")}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-900 text-white text-xs font-bold hover:bg-blue-600 transition-all duration-300"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-xs font-bold hover:bg-blue-600 transition-all duration-300 shadow-sm cursor-pointer"
                 >
                   <BadgeCheck className="w-3.5 h-3.5" />
                   VERIFY
@@ -108,7 +111,7 @@ export default function Experience() {
               {exp.descBullets.map((bullet, idx) => (
                 <li
                   key={idx}
-                  className="flex items-start gap-3 text-sm text-gray-600 leading-relaxed"
+                  className="flex items-start gap-3 text-sm text-slate-600 leading-relaxed"
                 >
                   <span className="text-blue-500 mt-1">✦</span>
                   {bullet}
@@ -117,18 +120,20 @@ export default function Experience() {
             </ul>
 
             {/* Tech Stack Circles */}
-            <div className="mt-8 pt-6 border-t border-gray-100 flex flex-wrap gap-3">
+            <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap gap-3">
               {exp.techStack.map((tech) => (
                 <div key={tech.id} className="relative group/tech">
-                  <div className="w-10 h-10 rounded-full bg-[#e2e1df] border border-[#cccac7] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
+                  {/* मुख्य फिक्स: इथे 'bg-slate-900/5' किंवा 'dark:bg-slate-800/10' सारखा हलका काचेचा 
+                      Contrast बेस दिला आहे. यामुळे पांढरे लोगोस देखील आता अतिशय स्पष्ट आणि ठळक दिसतील! */}
+                  <div className="w-10 h-10 rounded-full bg-slate-900/5 backdrop-blur-xs border border-slate-300/80 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-white hover:border-blue-500 hover:shadow-md">
                     <img
                       src={tech.img}
                       alt={tech.name}
-                      className="w-5 h-5 object-contain"
+                      className="w-5 h-5 object-contain filter drop-shadow-[0_1px_1px_rgba(0,0,0,0.1)]"
                     />
                   </div>
                   {/* Tooltip */}
-                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/tech:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover/tech:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-20">
                     {tech.name}
                   </div>
                 </div>

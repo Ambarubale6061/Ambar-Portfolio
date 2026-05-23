@@ -14,62 +14,64 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-neutral-200/70 backdrop-blur-md border-t border-neutral-200/50 py-16 px-6 sm:px-12 md:px-20 lg:px-32 relative z-10">
+    /* बदल: इथे bg-neutral काढून पूर्णपणे प्रीमियम मऊ ग्लास-इफेक्ट दिला आहे 
+       ज्यामुळे बॅकग्राउंडचे रंग फुटरच्या आरपार हुबेहूब ओरिजिनल इमेजसारखे ट्रान्सपरंट दिसतील */
+    <footer className="w-full bg-white/20 backdrop-blur-xl border-t border-white/40 py-16 px-6 sm:px-12 md:px-20 lg:px-32 relative z-10">
       <div className="max-w-3xl mx-auto w-full flex flex-col items-center justify-center text-center">
         {/* Brand Name Title */}
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-2">
           Ambar <span className="text-blue-600">Ubale</span>
         </h2>
 
         {/* Subtitle Definition */}
-        <p className="text-neutral-500 text-xs md:text-sm font-normal max-w-md leading-relaxed mb-8">
+        <p className="text-slate-500 text-xs md:text-sm font-normal max-w-md leading-relaxed mb-8">
           Full Stack Developer crafting scalable software and AI-driven
           solutions for real-world problems.
         </p>
 
         {/* --- Section Links Navigation Line --- */}
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-10 text-xs md:text-sm font-medium text-neutral-600">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-10 text-xs md:text-sm font-medium text-slate-600">
           <a
             href="#"
             className="flex items-center gap-1.5 hover:text-blue-600 transition-colors duration-200"
           >
-            <Home className="w-3.5 h-3.5 text-neutral-400" /> Home
+            <Home className="w-3.5 h-3.5 text-slate-400" /> Home
           </a>
           <a
             href="#about"
             className="flex items-center gap-1.5 hover:text-blue-600 transition-colors duration-200"
           >
-            <User className="w-3.5 h-3.5 text-neutral-400" /> About
+            <User className="w-3.5 h-3.5 text-slate-400" /> About
           </a>
           <a
             href="#skills"
             className="flex items-center gap-1.5 hover:text-blue-600 transition-colors duration-200"
           >
-            <Code2 className="w-3.5 h-3.5 text-neutral-400" /> Skills
+            <Code2 className="w-3.5 h-3.5 text-slate-400" /> Skills
           </a>
           <a
             href="#services"
             className="flex items-center gap-1.5 hover:text-blue-600 transition-colors duration-200"
           >
-            <Briefcase className="w-3.5 h-3.5 text-neutral-400" /> Services
+            <Briefcase className="w-3.5 h-3.5 text-slate-400" /> Services
           </a>
           <a
             href="#projects"
             className="flex items-center gap-1.5 hover:text-blue-600 transition-colors duration-200"
           >
-            <FolderGit2 className="w-3.5 h-3.5 text-neutral-400" /> Projects
+            <FolderGit2 className="w-3.5 h-3.5 text-slate-400" /> Projects
           </a>
           <a
             href="#testimonials"
             className="flex items-center gap-1.5 hover:text-blue-600 transition-colors duration-200"
           >
-            <MessageSquare className="w-3.5 h-3.5 text-neutral-400" /> Reviews
+            <MessageSquare className="w-3.5 h-3.5 text-slate-400" /> Reviews
           </a>
           <a
             href="#contact"
             className="flex items-center gap-1.5 hover:text-blue-600 transition-colors duration-200"
           >
-            <Mail className="w-3.5 h-3.5 text-neutral-400" /> Contact
+            <Mail className="w-3.5 h-3.5 text-slate-400" /> Contact
           </a>
         </div>
 
@@ -118,7 +120,7 @@ export default function Footer() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`w-12 h-12 rounded-full border border-neutral-200 bg-white flex items-center justify-center text-neutral-600 transition-all duration-300 ${social.color} hover:text-white hover:scale-110 hover:shadow-xl hover:-translate-y-2`}
+              className={`w-12 h-12 rounded-full border border-white/50 bg-white/60 backdrop-blur-sm flex items-center justify-center text-slate-600 transition-all duration-300 ${social.color} hover:text-white hover:scale-110 hover:shadow-xl hover:-translate-y-2`}
             >
               <svg
                 className="w-5 h-5"
@@ -152,9 +154,8 @@ export default function Footer() {
       </div>
 
       {/* --- Universal Copyright Bottom Center Line --- */}
-
-      <div className="w-full text-center mt-12 pt-6 border-t border-neutral-200/30">
-        <p className="text-[10px] md:text-xs text-neutral-400 font-medium tracking-widest uppercase">
+      <div className="w-full text-center mt-12 pt-6 border-t border-slate-900/5">
+        <p className="text-[10px] md:text-xs text-slate-400 font-medium tracking-widest uppercase">
           &copy; {currentYear} &nbsp; Ambar Ubale &nbsp; | &nbsp; All Rights
           Reserved.
         </p>

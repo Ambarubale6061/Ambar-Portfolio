@@ -141,13 +141,14 @@ export default function Testimonials() {
   };
 
   return (
+    /* बदल: पूर्ण सेक्शन बॅकग्राउंड आता ट्रान्सपरंट (bg-transparent) केला आहे */
     <section
       id="testimonials"
-      className="w-full py-20 overflow-hidden bg-[#faf9f7]"
+      className="w-full py-20 overflow-hidden bg-transparent relative z-10"
     >
-      {/* Section Heading — matches services.jsx style */}
+      {/* Section Heading */}
       <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
-        <h3 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">
+        <h3 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
           Kind Words From{" "}
           <span
             className="bg-clip-text text-transparent"
@@ -169,7 +170,7 @@ export default function Testimonials() {
       <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
         <motion.div
           ref={trackRef}
-          className="flex gap-6 cursor-grab active:cursor-grabbing"
+          className="flex gap-6 cursor-grab active:cursor-grabbing py-4 px-2"
           style={{ x }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -177,37 +178,39 @@ export default function Testimonials() {
           onPointerCancel={handlePointerUp}
         >
           {[...testimonials, ...testimonials].map((t, index) => (
+            /* बदल: कार्ड आता प्युअर व्हाईट (bg-white/70) आणि काचेच्या फिनिशिंगमध्ये (backdrop-blur) आहे 
+               त्यासोबत मजकूर अगदी क्लिअर दिसण्यासाठी टेक्स्ट कलर्स डार्क केले आहेत */
             <div
               key={index}
               className="flex flex-col justify-between shrink-0
                          w-[280px] sm:w-[350px] md:w-[400px] min-h-[280px]
-                         p-7 bg-[#e2e1df] border border-gray-200 rounded-2xl shadow-sm
-                         hover:shadow-md hover:border-gray-300 transition-all duration-300
+                         p-7 bg-white/70 backdrop-blur-md border border-white/60 rounded-2xl shadow-sm
+                         hover:shadow-xl hover:border-blue-100 transition-all duration-300
                          select-none"
             >
               {/* Top row: quote mark + company pill */}
               <div className="flex items-start justify-between mb-3">
-                <span className="text-5xl text-gray-400 font-serif leading-none select-none">
+                <span className="text-5xl text-blue-500 font-serif leading-none select-none">
                   &ldquo;
                 </span>
                 <span
-                  className="text-[10px] font-bold tracking-widest uppercase text-gray-400
-                                 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full"
+                  className="text-[10px] font-bold tracking-widest uppercase text-blue-600
+                             bg-blue-50/80 border border-blue-100 px-2.5 py-1 rounded-full"
                 >
                   {t.company}
                 </span>
               </div>
 
-              {/* Testimonial text */}
-              <p className="text-sm leading-relaxed italic text-gray-500 flex-grow mb-6">
+              {/* Testimonial text - All Clear Visibility */}
+              <p className="text-sm leading-relaxed italic text-slate-600 flex-grow mb-6">
                 {t.text}
               </p>
 
               {/* Divider + Author */}
-              <div className="flex items-center gap-3 pt-5 border-t border-gray-200">
+              <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
                 <div
                   className="w-10 h-10 rounded-full overflow-hidden shrink-0
-                                ring-2 ring-gray-100 bg-gray-200"
+                             ring-2 ring-blue-100 bg-slate-100"
                 >
                   {t.image ? (
                     <img
@@ -216,16 +219,16 @@ export default function Testimonials() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-300 text-xs font-bold text-gray-600">
+                    <div className="w-full h-full flex items-center justify-center bg-blue-100 text-xs font-bold text-blue-600">
                       {t.name.substring(0, 2).toUpperCase()}
                     </div>
                   )}
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-900">
+                  <h4 className="text-sm font-semibold text-slate-900">
                     {t.name}
                   </h4>
-                  <p className="text-xs text-gray-400">{t.role}</p>
+                  <p className="text-xs text-slate-400 font-medium">{t.role}</p>
                 </div>
               </div>
             </div>

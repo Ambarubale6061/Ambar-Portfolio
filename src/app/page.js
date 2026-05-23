@@ -13,14 +13,21 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-gray-900 selection:bg-blue-100 flex flex-col justify-between relative transition-colors duration-300 w-full overflow-x-hidden">
-      {/* High-End Soft Backdrop */}
-      <div className="absolute top-0 left-0 right-0 h-[500px] bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-50/40 via-transparent to-transparent pointer-events-none" />
+    /* मुख्य बदल: 'min-h-dvh' (Dynamic Viewport Height) मुळे रिफ्रेश केल्यानंतरही 
+       ब्राउझर एक्स्ट्रा जागा बनवू शकणार नाही, आणि 'justify-between' फुटरला खालीच खिळवून ठेवेल */
+    <div className="min-h-dvh w-full relative bg-gradient-to-br from-[#eef3f6] via-[#e3edf2] to-[#d6e6ee] text-slate-800 selection:bg-blue-100 flex flex-col justify-between antialiased overflow-x-hidden">
+      {/* --- प्रीमियम ॲनिमेटेड सॉफ्ट बॅकग्राउंड शेप्स (Blobs) --- */}
+      <div className="absolute top-[-5%] left-[-15%] w-[600px] h-[600px] md:w-[800px] md:h-[800px] bg-[#cfe3ea] rounded-full filter blur-[100px] md:blur-[140px] opacity-70 pointer-events-none z-0 animate-float-slow" />
+      <div className="absolute top-[5%] right-[-10%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] bg-[#bcd6df] rounded-full filter blur-[90px] md:blur-[120px] opacity-60 pointer-events-none z-0 animate-float-delayed" />
+      <div className="absolute top-[35%] left-[-20%] w-[600px] h-[600px] bg-[#cfe3ea] rounded-full filter blur-[120px] opacity-50 pointer-events-none z-0 animate-float-slow" />
+      <div className="absolute top-[60%] right-[-15%] w-[700px] h-[700px] bg-[#bcd6df] rounded-full filter blur-[130px] opacity-50 pointer-events-none z-0 animate-float-delayed" />
+      <div className="absolute bottom-[-5%] left-[-10%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] bg-[#cfe3ea] rounded-full filter blur-[100px] md:blur-[130px] opacity-60 pointer-events-none z-0 animate-float-slow" />
 
-      {/* Sticky Top Navbar Element */}
+      {/* --- मुख्य लेआउट रचना --- */}
       <Navbar />
 
-      <main className="w-full pb-12 z-10">
+      {/* 'w-full' आणि रॅपर व्यवस्थित सेट केला आहे */}
+      <main className="w-full relative z-10 flex-1">
         <Hero />
         <About />
         <Skills />
@@ -31,7 +38,7 @@ export default function Home() {
         <Contact />
       </main>
 
-      {/* Full Width Footer Area */}
+      {/* फुटर आता परमनंट तळाशी लॉक झाला आहे */}
       <Footer />
     </div>
   );

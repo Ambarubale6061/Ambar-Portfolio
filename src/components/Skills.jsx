@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, memo } from "react";
+import React, { useState, useEffect, memo } from "react";
 import {
   Atom,
   Layers,
@@ -33,11 +33,11 @@ import {
   Code,
 } from "lucide-react";
 
-// ─── Skill data ───────────────────────────────────────────────────────────────
+// ─── Skill data (No changes here, keeping existing data structured) ──────────
 const skillData = {
   interface: [
     { name: "React", Icon: Atom, color: "#0ea5e9" },
-    { name: "Next.js", Icon: Layers, color: "#a0aec0" },
+    { name: "Next.js", Icon: Layers, color: "#000000" },
     { name: "TypeScript", Icon: FileCode, color: "#3b82f6" },
     { name: "Tailwind", Icon: Sparkles, color: "#06b6d4" },
     { name: "Framer", Icon: Layout, color: "#ec4899" },
@@ -57,14 +57,14 @@ const skillData = {
     { name: "GraphQL", Icon: Share2, color: "#e10098" },
     { name: "Microservices", Icon: Cpu, color: "#f59e0b" },
     { name: "LangChain", Icon: GitBranch, color: "#6366f1" },
-    { name: "Express", Icon: Server, color: "#a0aec0" },
+    { name: "Express", Icon: Server, color: "#475569" },
   ],
   data: [
     { name: "PostgreSQL", Icon: DbIcon, color: "#6366f1" },
     { name: "Supabase", Icon: Zap, color: "#3ecf8e" },
     { name: "MongoDB", Icon: HardDrive, color: "#16a34a" },
     { name: "Redis", Icon: Zap, color: "#ef4444" },
-    { name: "Prisma", Icon: Braces, color: "#a0aec0" },
+    { name: "Prisma", Icon: Braces, color: "#000000" },
     { name: "Firebase", Icon: Cloud, color: "#f59e0b" },
     { name: "Elastic", Icon: SearchCode, color: "#f97316" },
     { name: "Vector DB", Icon: Hash, color: "#8b5cf6" },
@@ -74,8 +74,8 @@ const skillData = {
   workflow: [
     { name: "Docker", Icon: Boxes, color: "#2496ed" },
     { name: "AWS", Icon: Cloud, color: "#f97316" },
-    { name: "Git", Icon: GitCommit, color: "#a0aec0" },
-    { name: "Vercel", Icon: Zap, color: "#a0aec0" },
+    { name: "Git", Icon: GitCommit, color: "#f05032" },
+    { name: "Vercel", Icon: Zap, color: "#000000" },
     { name: "Actions", Icon: Workflow, color: "#2088ff" },
     { name: "Linux", Icon: Terminal, color: "#ca8a04" },
     { name: "Postman", Icon: MessageSquare, color: "#ef6c37" },
@@ -85,245 +85,164 @@ const skillData = {
   ],
 };
 
-// ─── Shared RAF + IO system ───────────────────────────────────────────────────
-let rafId = 0;
-let isVisible = true;
-const tickSet = new Set();
-
-function startSharedLoop() {
-  if (rafId !== 0) return;
-  const loop = () => {
-    rafId = requestAnimationFrame(loop);
-    if (!isVisible) return;
-    for (const tick of tickSet) tick();
-  };
-  rafId = requestAnimationFrame(loop);
-}
-
-function stopSharedLoop() {
-  cancelAnimationFrame(rafId);
-  rafId = 0;
-}
-
-function registerTick(fn) {
-  tickSet.add(fn);
-  startSharedLoop();
-}
-
-function unregisterTick(fn) {
-  tickSet.delete(fn);
-  if (tickSet.size === 0) stopSharedLoop();
-}
-
-if (typeof document !== "undefined") {
-  document.addEventListener(
-    "visibilitychange",
-    () => {
-      isVisible = !document.hidden;
-    },
-    { passive: true },
-  );
-}
-
 // ─── Card metadata ────────────────────────────────────────────────────────────
 const CARDS = [
-  { key: "interface", title: "Interface & Experience", blob: "#0ea5e9" },
-  { key: "core", title: "Core & Intelligence", blob: "#a855f7" },
-  { key: "data", title: "Data & Persistence", blob: "#10b981" },
-  { key: "workflow", title: "DevOps & Workflow", blob: "#f97316" },
+  { key: "interface", title: "Interface & Experience" },
+  { key: "core", title: "Core & Intelligence" },
+  { key: "data", title: "Data & Persistence" },
+  { key: "workflow", title: "DevOps & Workflow" },
 ];
 
-// ─── SkillCard ────────────────────────────────────────────────────────────────
-const SkillCard = memo(function SkillCard({ skills, title, blob }) {
-  const itemRefs = useRef([]);
-  const cardRef = useRef(null);
-  const rotRef = useRef(0);
-  const inViewRef = useRef(false);
+// ─── Pure Smooth 3D Carousel Card (UPDATED TO WHITE/GLASS THEME) ──────────────
+const SkillCard = memo(function SkillCard({ skills, title }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    const count = skills.length;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        inViewRef.current = entry.isIntersecting;
-      },
-      { threshold: 0.05 },
-    );
-    if (cardRef.current) io.observe(cardRef.current);
-
-    const tick = () => {
-      if (!inViewRef.current) return;
-
-      rotRef.current += 0.25;
-      const rotation = rotRef.current;
-
-      for (let i = 0; i < count; i++) {
-        const el = itemRefs.current[i];
-        if (!el) continue;
-
-        const angle = (i / count) * 360 + rotation;
-        const rad = (angle * Math.PI) / 180;
-
-        // ── Increased horizontal radius to fill the wider 2-column card
-        const x = 200 * Math.cos(rad);
-        const y = 44 * Math.sin(rad);
-        const scale = 0.62 + ((y + 44) / 88) * 0.46;
-
-        // Normalised angle 0–360
-        const norm = ((angle % 360) + 360) % 360;
-
-        // ── Narrowed visibility windows (18° → 10°) so only one item per slot
-        // Centre item: within ±10° of the front (270°)
-        const distFromFront = Math.min(
-          Math.abs(norm - 270),
-          360 - Math.abs(norm - 270),
-        );
-        const isCenter = distFromFront < 10;
-
-        // Side items: within ±10° of 210° or 330°
-        const distFrom210 = Math.min(
-          Math.abs(norm - 210),
-          360 - Math.abs(norm - 210),
-        );
-        const distFrom330 = Math.min(
-          Math.abs(norm - 330),
-          360 - Math.abs(norm - 330),
-        );
-        const isSide = distFrom210 < 10 || distFrom330 < 10;
-
-        // Only show center + two side items; hide everything else
-        const isItemVisible = isCenter || isSide;
-        const alpha = isItemVisible ? 1 : 0;
-        const blur = isCenter ? 0 : isSide ? 3 : 0;
-        const sideScale = isSide ? scale * 0.82 : scale;
-
-        el.style.transform = `translate(${x}px,${y + 18}px) scale(${isCenter ? scale : sideScale})`;
-        el.style.zIndex = String(isCenter ? 200 : isSide ? 100 : 0);
-        el.style.opacity = String(alpha);
-        el.style.filter = blur > 0 ? `blur(${blur}px)` : "none";
-        el.style.pointerEvents = isItemVisible ? "auto" : "none";
-
-        // Box style per state
-        const boxEl = el.querySelector(".sk-box");
-        if (boxEl) {
-          if (isCenter) {
-            // ── Lightened: #1c1c1e → #2d2d31
-            boxEl.style.backgroundColor = "#2d2d31";
-            boxEl.style.border = `1px solid rgba(255,255,255,0.12)`;
-            boxEl.style.boxShadow = `0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06)`;
-            boxEl.style.transform = "scale(1.08)";
-          } else {
-            // ── Lightened: #2a2a2e → #38383c
-            boxEl.style.backgroundColor = "#38383c";
-            boxEl.style.border = `1px solid rgba(255,255,255,0.07)`;
-            boxEl.style.boxShadow = `0 2px 10px rgba(0,0,0,0.22)`;
-            boxEl.style.transform = "scale(1)";
-          }
-        }
-
-        // Label colour per state
-        const labelEl = el.querySelector(".sk-label");
-        if (labelEl) {
-          labelEl.style.color = isCenter ? "#ffffff" : "#9ca3af";
-        }
-      }
-    };
-
-    registerTick(tick);
-    return () => {
-      unregisterTick(tick);
-      io.disconnect();
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev - 1 + skills.length) % skills.length);
+    }, 2800);
+    return () => clearInterval(interval);
+  }, [skills.length, isHovered]);
 
   return (
     <div
-      ref={cardRef}
-      className="relative h-[340px] w-full rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-      style={{
-        background: `linear-gradient(145deg, #e8e7e5 0%, ${blob}18 100%)`,
-        border: `1px solid ${blob}45`,
-        boxShadow: `0 2px 8px rgba(0,0,0,0.10), 0 0 0 1px ${blob}18`,
-      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      /* बदल: डार्क बॅकग्राउंड काढून bg-white/70 ग्लास फिनिश दिला आहे */
+      className="relative h-[330px] w-full bg-white/70 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden flex flex-col justify-between p-5 group hover:shadow-md hover:border-slate-200 transition-all duration-500"
     >
-      {/* Decorative accent glow */}
+      {/* Dynamic Brand Glow Backdrop (Softened for Light Theme) */}
       <div
-        className="absolute -top-16 -left-16 w-56 h-56 rounded-full blur-[90px] opacity-[0.22] pointer-events-none"
-        style={{ backgroundColor: blob }}
-      />
-      <div
-        className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full blur-[70px] opacity-[0.10] pointer-events-none"
-        style={{ backgroundColor: blob }}
+        className="absolute inset-0 opacity-[0.08] blur-[60px] pointer-events-none transition-all duration-1000 ease-in-out"
+        style={{
+          background: `radial-gradient(circle at center, ${skills[activeIndex].color} 0%, transparent 65%)`,
+        }}
       />
 
-      {/* Card title */}
-      <div className="relative z-20 pt-6 text-center">
-        <h3
-          className="text-[10px] font-semibold tracking-[0.18em] uppercase"
-          style={{ color: blob }}
-        >
+      {/* Header Container */}
+      <div className="relative z-30 w-full text-left">
+        <h3 className="text-[11px] font-bold tracking-[0.15em] uppercase text-slate-400 font-mono">
           {title}
         </h3>
+        <div className="h-[1px] w-6 bg-slate-200 mt-1.5 transition-all duration-500 group-hover:w-12 group-hover:bg-slate-400" />
       </div>
 
-      {/* Orbit stage */}
-      <div className="relative w-full h-full flex justify-center items-center -mt-10">
-        {skills.map((skill, index) => (
-          <div
-            key={`${title}-${skill.name}`}
-            ref={(el) => {
-              itemRefs.current[index] = el;
-            }}
-            className="absolute flex flex-col items-center"
-            style={{
-              willChange: "transform, opacity, filter",
-              // ── Reduced transition time (120ms → 50ms) to minimise ghost overlap
-              transition: "filter 50ms ease, opacity 50ms ease",
-            }}
-          >
-            {/* Icon + name box */}
+      {/* 3D Horizon Stage Layer */}
+      <div
+        className="relative w-full flex-grow flex items-center justify-center select-none"
+        style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
+      >
+        {skills.map((skill, index) => {
+          let offset = index - activeIndex;
+          if (offset < -skills.length / 2) offset += skills.length;
+          if (offset > skills.length / 2) offset -= skills.length;
+
+          const isCenter = offset === 0;
+          const isLeft = offset === -1 || (offset < -1 && offset >= -2);
+          const isRight = offset === 1 || (offset > 1 && offset <= 2);
+
+          let translateX = 0;
+          let translateZ = -250;
+          let rotateY = 0;
+          let opacity = 0;
+
+          if (isCenter) {
+            translateX = 0;
+            translateZ = 0;
+            rotateY = 0;
+            opacity = 1;
+          } else if (isLeft) {
+            translateX = -110;
+            translateZ = -120;
+            rotateY = 20;
+            opacity = 0.35;
+          } else if (isRight) {
+            translateX = 110;
+            translateZ = -120;
+            rotateY = -20;
+            opacity = 0.35;
+          }
+
+          return (
             <div
-              className="sk-box flex flex-col items-center gap-2 px-3 py-3 rounded-2xl flex-shrink-0"
+              key={`${title}-${skill.name}`}
+              className="absolute will-change-transform font-sans"
               style={{
-                // ── Lightened default: #2a2a2e → #38383c
-                backgroundColor: "#38383c",
-                border: "1px solid rgba(255,255,255,0.07)",
-                boxShadow: "0 2px 10px rgba(0,0,0,0.22)",
-                minWidth: "76px",
+                transform: `translate3d(${translateX}px, 0px, ${translateZ}px) rotateY(${rotateY}deg)`,
+                opacity: opacity,
+                zIndex: isCenter ? 100 : 20,
+                filter: isCenter ? "blur(0px)" : "blur(0.5px)",
                 transition:
-                  "background-color 140ms ease, box-shadow 140ms ease, transform 140ms ease",
+                  "transform 850ms cubic-bezier(0.25, 1, 0.5, 1), opacity 850ms cubic-bezier(0.25, 1, 0.5, 1), filter 850ms cubic-bezier(0.25, 1, 0.5, 1)",
+                pointerEvents: isCenter ? "auto" : "none",
+                transformStyle: "preserve-3d",
               }}
             >
-              <div className="w-9 h-9 flex items-center justify-center flex-shrink-0">
-                <skill.Icon
-                  size={24}
-                  style={{ color: skill.color }}
-                  strokeWidth={1.6}
-                />
-              </div>
-              <span
-                className="sk-label text-[9px] font-semibold tracking-wide text-center leading-tight"
-                style={{ color: "#9ca3af", transition: "color 140ms ease" }}
+              {/* बदल: आतील टेक स्टॅक कार्ड्स आता व्हाईट ग्लास (bg-white/90) मध्ये आहेत */}
+              <div
+                className="w-[110px] h-[150px] rounded-xl border flex flex-col items-center justify-between p-3 relative bg-white/90 transition-all duration-300 shadow-xs"
+                style={{
+                  borderColor: isCenter
+                    ? `${skill.color}55`
+                    : "rgba(0, 0, 0, 0.05)",
+                  boxShadow: isCenter
+                    ? `0 15px 30px -10px ${skill.color}25, 0 0 15px 1px ${skill.color}10, inset 0 1px 0 0 rgba(255,255,255,0.8)`
+                    : "0 4px 12px rgba(0, 0, 0, 0.03)",
+                }}
               >
-                {skill.name}
-              </span>
+                {/* Micro Top Rim Line */}
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/5 to-transparent" />
+
+                {/* Center Vector Icon Logo Layer */}
+                <div className="flex-grow flex items-center justify-center w-full pt-2">
+                  <div
+                    className="p-2.5 rounded-xl border transition-colors duration-500 bg-slate-50"
+                    style={{
+                      borderColor: isCenter
+                        ? `${skill.color}15`
+                        : "rgba(0, 0, 0, 0.02)",
+                    }}
+                  >
+                    <skill.Icon
+                      size={26}
+                      style={{ color: skill.color }}
+                      strokeWidth={1.6}
+                    />
+                  </div>
+                </div>
+
+                {/* Name Label */}
+                <div className="w-full text-center pb-0.5">
+                  <span
+                    className="text-[10px] font-bold tracking-wide block truncate transition-colors duration-500"
+                    style={{ color: isCenter ? "#0f172a" : "#94a3b8" }}
+                  >
+                    {skill.name}
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
 });
 
-// ─── Section ──────────────────────────────────────────────────────────────────
+// ─── Main Section Wrapper ─────────────────────────────────────────────────────
 export default function Skills() {
   return (
-    <section id="skills" className="w-full py-20 scroll-mt-20">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-        {/* Section header */}
-        <div className="mb-12 text-center">
-          <h3 className="text-2xl sm:text-4xl font-bold mb-4 leading-tight">
-            <span className="text-gray-900">Skills &amp;</span>{" "}
+    <section
+      id="skills"
+      className="w-full bg-transparent py-16 px-6 sm:px-12 scroll-mt-24 relative z-10"
+    >
+      <div className="max-w-5xl mx-auto">
+        {/* Section Header - बदल: हेडिंग आता अगदी Contact फॉर्म सारखीच मॅचिंग केली आहे */}
+        <div className="text-center mb-12">
+          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
+            Skills &amp;{" "}
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -333,24 +252,19 @@ export default function Skills() {
             >
               Expertise
             </span>
-          </h3>
-
+          </p>
+          {/* Accent Line */}
           <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
-
-          <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
-            Tools and technologies used to build modern web applications.
+          <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg font-normal">
+            Engineered using a high-fidelity 3D structural carousel loop layout
+            configured for optimal performance interfaces.
           </p>
         </div>
 
-        {/* 4-column grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {CARDS.map(({ key, title, blob }) => (
-            <SkillCard
-              key={key}
-              skills={skillData[key]}
-              title={title}
-              blob={blob}
-            />
+        {/* 2-Column Matrix Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+          {CARDS.map(({ key, title }) => (
+            <SkillCard key={key} skills={skillData[key]} title={title} />
           ))}
         </div>
       </div>

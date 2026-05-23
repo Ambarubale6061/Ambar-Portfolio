@@ -76,38 +76,46 @@ export default function Contact() {
   };
 
   return (
+    /* बदल: पूर्ण सेक्शन बॅकग्राउंड आता ट्रान्सपरंट (bg-transparent) केला आहे */
     <section
       id="contact"
-      className="w-full max-w-5xl mx-auto py-16 px-6 sm:px-12 scroll-mt-24"
+      className="w-full max-w-5xl mx-auto py-16 px-6 sm:px-12 scroll-mt-24 bg-transparent relative z-10"
     >
       {/* Section Heading */}
       <div className="text-center mb-12">
-        <h2 className="text-xs font-mono tracking-widest text-cyan-500 uppercase mb-3">
-          Get In Touch
-        </h2>
-
-        {/* Accent Line */}
-        <div className="w-16 h-[2px] bg-cyan-500 mx-auto mb-4 rounded-full"></div>
-
-        <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
-          <span className="text-black">Let&apos;s Build Something</span>{" "}
-          <span className="text-cyan-500">Legendary</span>
-        </h3>
+        <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
+          Get In{" "}
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
+            }}
+          >
+            Touch
+          </span>
+        </p>
+        <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
+        <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
+          I&apos;m always open to discussing new projects, creative ideas, or
+          opportunities. Feel free to reach out!
+        </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-10 items-start">
         {/* Left Side: Contact Info Boxes */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {contactDetails.map((item, idx) => (
+            /* बदल: इन्फो बॉक्सेस आता प्युअर व्हाईट (bg-white/70) आणि काचेच्या लूक मध्ये आहेत */
             <div
               key={idx}
-              className="flex items-center gap-4 p-4 bg-[#efefed] border border-gray-200 rounded-2xl group hover:border-gray-300 hover:shadow-sm transition-all duration-300"
+              className="flex items-center gap-4 p-4 bg-white/70 backdrop-blur-md border border-white/60 rounded-2xl group hover:border-blue-100 hover:shadow-md transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-neutral-600 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 shrink-0">
+              <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300 shrink-0 shadow-xs">
                 <item.icon className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-0.5">
+                <p className="text-[10px] font-bold tracking-widest uppercase text-blue-500 mb-0.5">
                   {item.label}
                 </p>
                 {item.href ? (
@@ -119,12 +127,12 @@ export default function Contact() {
                         ? "noopener noreferrer"
                         : undefined
                     }
-                    className="text-sm font-semibold text-neutral-800 hover:text-blue-600 transition-colors"
+                    className="text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors"
                   >
                     {item.value}
                   </a>
                 ) : (
-                  <p className="text-sm font-semibold text-neutral-800">
+                  <p className="text-sm font-semibold text-slate-800">
                     {item.value}
                   </p>
                 )}
@@ -134,12 +142,13 @@ export default function Contact() {
         </div>
 
         {/* Right Side: Contact Form */}
+        {/* बदल: फॉर्म आता प्युअर व्हाईट (bg-white/70), क्लिअर आणि जास्त आकर्षक केला आहे */}
         <form
           onSubmit={handleSubmit}
-          className="bg-[#efefed] p-6 rounded-2xl shadow-sm border border-gray-200 space-y-4"
+          className="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-white/60 space-y-4"
         >
           <div>
-            <label className="block text-xs font-bold text-neutral-600 mb-1">
+            <label className="block text-xs font-bold text-slate-700 mb-1">
               Name
             </label>
             <input
@@ -149,25 +158,25 @@ export default function Contact() {
               onChange={handleChange}
               required
               disabled={status === "loading"}
-              className="w-full px-4 py-2 text-sm bg-white border border-neutral-200 rounded-lg focus:ring-1 focus:ring-blue-400 outline-none transition-all disabled:opacity-60"
+              className="w-full px-4 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-blue-400 focus:border-blue-400 text-slate-800 outline-none transition-all disabled:opacity-60"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold text-neutral-600 mb-1">
+            <label className="block text-xs font-bold text-slate-700 mb-1">
               Email
             </label>
             <input
-              type="email"
+              type="type"
               name="email"
               value={form.email}
               onChange={handleChange}
               required
               disabled={status === "loading"}
-              className="w-full px-4 py-2 text-sm bg-white border border-neutral-200 rounded-lg focus:ring-1 focus:ring-blue-400 outline-none transition-all disabled:opacity-60"
+              className="w-full px-4 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-blue-400 focus:border-blue-400 text-slate-800 outline-none transition-all disabled:opacity-60"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold text-neutral-600 mb-1">
+            <label className="block text-xs font-bold text-slate-700 mb-1">
               Subject
             </label>
             <input
@@ -177,11 +186,11 @@ export default function Contact() {
               onChange={handleChange}
               required
               disabled={status === "loading"}
-              className="w-full px-4 py-2 text-sm bg-white border border-neutral-200 rounded-lg focus:ring-1 focus:ring-blue-400 outline-none transition-all disabled:opacity-60"
+              className="w-full px-4 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-blue-400 focus:border-blue-400 text-slate-800 outline-none transition-all disabled:opacity-60"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold text-neutral-600 mb-1">
+            <label className="block text-xs font-bold text-slate-700 mb-1">
               Message
             </label>
             <textarea
@@ -191,13 +200,13 @@ export default function Contact() {
               required
               rows={3}
               disabled={status === "loading"}
-              className="w-full px-4 py-2 text-sm bg-white border border-neutral-200 rounded-lg focus:ring-1 focus:ring-blue-400 outline-none transition-all resize-none disabled:opacity-60"
+              className="w-full px-4 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-blue-400 focus:border-blue-400 text-slate-800 outline-none transition-all resize-none disabled:opacity-60"
             />
           </div>
 
           {/* Success Banner */}
           {status === "success" && (
-            <div className="flex items-center gap-2.5 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 text-sm font-medium">
+            <div className="flex items-center gap-2.5 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 text-sm font-medium animate-fadeIn">
               <CheckCircle className="w-4 h-4 shrink-0" />
               Message sent! I&apos;ll get back to you soon.
             </div>
@@ -205,7 +214,7 @@ export default function Contact() {
 
           {/* Error Banner */}
           {status === "error" && (
-            <div className="flex items-center gap-2.5 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm font-medium">
+            <div className="flex items-center gap-2.5 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm font-medium animate-fadeIn">
               <AlertCircle className="w-4 h-4 shrink-0" />
               {errorMsg}
             </div>
@@ -214,7 +223,7 @@ export default function Contact() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="w-full bg-neutral-900 text-white text-sm font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-white hover:text-neutral-900 hover:border hover:border-neutral-900 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-slate-900 text-white text-sm font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 border border-transparent transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer shadow-xs"
           >
             {status === "loading" ? (
               <>
