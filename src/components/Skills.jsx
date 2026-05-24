@@ -234,10 +234,7 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
 // ─── Main Section Wrapper ─────────────────────────────────────────────────────
 export default function Skills() {
   return (
-    <section
-      id="skills"
-      className="w-full bg-transparent py-16 px-6 sm:px-12 scroll-mt-24 relative z-10"
-    >
+    <section id="skills" className="py-20 sm:py-28 scroll-mt-24 relative">
       <div className="max-w-5xl mx-auto">
         {/* Section Header - बदल: हेडिंग आता अगदी Contact फॉर्म सारखीच मॅचिंग केली आहे */}
         <div className="text-center mb-12">
@@ -262,7 +259,7 @@ export default function Skills() {
         </div>
 
         {/* 2-Column Matrix Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {CARDS.map(({ key, title }) => (
             <SkillCard key={key} skills={skillData[key]} title={title} />
           ))}

@@ -1,26 +1,44 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import {
+  Menu,
+  X,
+  User,
+  BrainCircuit,
+  LayoutGrid,
+  Briefcase,
+  Award,
+  MessageSquare,
+  Mail,
+} from "lucide-react";
 
 const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Services", href: "#services" },
-  { name: "Projects", href: "#projects" },
-  { name: "Experience", href: "#experience" },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Contact", href: "#contact" },
+  { name: "About", href: "#about", icon: User },
+  { name: "Skills", href: "#skills", icon: BrainCircuit },
+  { name: "Services", href: "#services", icon: LayoutGrid },
+  { name: "Projects", href: "#projects", icon: Briefcase },
+  { name: "Experience", href: "#experience", icon: Award },
+  { name: "Testimonials", href: "#testimonials", icon: MessageSquare },
+  { name: "Contact", href: "#contact", icon: Mail },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [activeTab, setActiveTab] = useState("About");
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 20);
+      setVisible(currentScrollY < lastScrollY || currentScrollY < 50);
+      setLastScrollY(currentScrollY);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const handleDownload = () => {
     const link = document.createElement("a");
@@ -32,95 +50,137 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/80 backdrop-blur-md border-b border-gray-100 py-3"
-          : "bg-transparent py-4"
-      }`}
-    >
-      <div className="w-full max-w-6xl mx-auto px-5 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#" className="text-2xl md:text-3xl font-bold tracking-tight">
-          <span className="text-cyan-500">Am</span>
-          <span className="text-black">bar</span>
-        </a>
+    <>
+      {/* --- DESKTOP NAVBAR --- */}
+      <nav
+        className={`hidden md:flex fixed top-0 left-0 right-0 z-50 w-full px-12 py-4 items-center justify-center gap-6 bg-white/60 backdrop-blur-xl border-b border-white/40 transition-all duration-300 ${scrolled ? "shadow-md" : ""}`}
+      >
+        {/* Wrapper — gap slightly increased from gap-6 → gap-8 */}
+        <div className="flex items-center gap-8">
+          {/* Name */}
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="text-2xl font-extrabold tracking-tighter select-none"
+          >
+            <span className="text-cyan-500">Am</span>bar
+          </a>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
+          {/* Capsule — off-white background + magic underline on links */}
+          <div className="flex items-center gap-1 px-6 py-2.5 rounded-full border border-gray-200/80 bg-white/70">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`
+                  relative px-3 py-1.5 text-[11px] font-black uppercase tracking-widest
+                  text-gray-600 hover:text-cyan-600 transition-colors duration-200
+                  after:absolute after:left-3 after:right-3 after:bottom-0
+                  after:h-[1.5px] after:rounded-full after:bg-cyan-500
+                  after:scale-x-0 after:origin-left
+                  after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.25,1,0.5,1)]
+                  hover:after:scale-x-100
+                `}
+              >
+                {link.name}
+              </a>
+            ))}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleDownload}
+              className="px-5 py-2 text-[10px] font-black uppercase tracking-widest rounded-full border border-gray-300 text-gray-700 bg-white/50 hover:border-cyan-400 hover:text-cyan-600 transition-all duration-300"
+            >
+              Resume
+            </button>
+
+            <a
+              href="#contact"
+              className="px-5 py-2 text-[10px] font-black uppercase tracking-widest rounded-full bg-gray-900 text-white hover:bg-cyan-500 transition-all duration-300"
+            >
+              Let&apos;s Talk
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      {/* --- MOBILE FLOATING NAV --- */}
+      <nav
+        className={`md:hidden fixed bottom-6 left-4 right-4 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${visible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
+      >
+        <div className="flex items-center justify-between px-4 py-3 rounded-full bg-white/60 backdrop-blur-2xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.1)]">
+          {navLinks.slice(0, 4).map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="relative text-[10px] font-bold uppercase tracking-widest text-gray-500 transition-all duration-300 hover:text-cyan-500 group"
+              onClick={() => setActiveTab(link.name)}
+              className={`p-3 rounded-full transition-all duration-300 ${activeTab === link.name ? "bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.5)]" : "text-gray-600"}`}
             >
-              {link.name}
-
-              {/* Animated underline */}
-              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-cyan-500 transition-all duration-300 group-hover:w-full"></span>
+              <link.icon className="w-5 h-5" />
             </a>
           ))}
-
-          {/* Resume Button */}
           <button
-            onClick={handleDownload}
-            className="text-[10px] font-bold uppercase tracking-widest border border-gray-300 px-3 py-1.5 rounded-full transition-all duration-300 hover:border-cyan-500 hover:text-cyan-500 hover:shadow-[0_0_10px_rgba(6,182,212,0.3)]"
+            onClick={() => setIsOpen(true)}
+            className="p-3 rounded-full bg-gray-900 text-white shadow-lg"
           >
-            Resume
-          </button>
-
-          {/* CTA Button */}
-          <a
-            href="#contact"
-            className="px-4 py-1.5 bg-black text-white text-[10px] font-bold uppercase tracking-widest rounded-full border border-black transition-all duration-300 hover:bg-white hover:text-cyan-500 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] hover:scale-105"
-          >
-            Let&apos;s Talk
-          </a>
-        </div>
-
-        {/* Mobile */}
-        <div className="flex md:hidden items-center gap-3">
-          <button
-            onClick={handleDownload}
-            className="text-[10px] font-bold uppercase border border-gray-300 px-3 py-1.5 rounded-full"
-          >
-            Resume
-          </button>
-
-          <a
-            href="#contact"
-            className="bg-black text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full"
-          >
-            Let&apos;s Talk
-          </a>
-
-          <button onClick={() => setIsOpen(true)} className="p-1 text-black">
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5" />
           </button>
         </div>
-      </div>
+      </nav>
 
-      {/* Mobile Sidebar */}
+      {/* --- PREMIUM MOBILE BOTTOM SHEET --- */}
       <div
-        className={`fixed inset-0 z-[60] bg-white p-8 flex flex-col gap-6 md:hidden transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed inset-0 z-[100] md:hidden transition-all duration-300 ${isOpen ? "visible" : "invisible"}`}
       >
-        <button onClick={() => setIsOpen(false)} className="self-end p-2 mb-4">
-          <X className="w-7 h-7" />
-        </button>
-
-        {navLinks.map((link) => (
-          <a
-            key={link.name}
-            href={link.href}
-            onClick={() => setIsOpen(false)}
-            className="text-xl font-bold text-black border-b border-gray-100 pb-3 hover:text-cyan-500 transition"
-          >
-            {link.name}
-          </a>
-        ))}
+        <div
+          className={`absolute inset-0 bg-black/20 backdrop-blur-sm transition-opacity ${isOpen ? "opacity-100" : "opacity-0"}`}
+          onClick={() => setIsOpen(false)}
+        />
+        <div
+          className={`absolute bottom-0 w-full bg-white/90 backdrop-blur-3xl rounded-t-[32px] p-6 border-t border-white/50 transition-transform duration-500 ${isOpen ? "translate-y-0" : "translate-y-full"}`}
+        >
+          <div className="flex justify-between items-center mb-6 px-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
+              Navigation
+            </span>
+            <button onClick={() => setIsOpen(false)} className="p-1">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 text-sm font-semibold hover:bg-cyan-50 transition-colors"
+              >
+                <link.icon className="w-4 h-4 text-cyan-600" /> {link.name}
+              </a>
+            ))}
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={handleDownload}
+              className="flex-1 py-3 rounded-xl border border-gray-200 text-xs font-bold uppercase"
+            >
+              Resume
+            </button>
+            <a
+              href="#contact"
+              onClick={() => setIsOpen(false)}
+              className="flex-1 py-3 rounded-xl bg-gray-900 text-white text-center text-xs font-bold uppercase"
+            >
+              Let&apos;s Talk
+            </a>
+          </div>
+        </div>
       </div>
-    </nav>
+    </>
   );
 }
