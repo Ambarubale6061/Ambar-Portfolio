@@ -1,6 +1,5 @@
 import "./globals.css";
 
-// हाय-लेव्हल प्रोफेशनल SEO मॅटाडेटा
 export const metadata = {
   title: "Ambar Ubale | Full Stack Developer Portfolio",
   description:
@@ -14,11 +13,21 @@ export const metadata = {
   ],
 };
 
-// मूळ रूट लेआउट कंपोनंट जो Next.js ला डीफॉल्ट एक्सपोर्ट म्हणून हवा असतो
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="scroll-smooth">
+      {/* - body ला 'min-h-screen' दिल्याने कंटेंट कमी असला तरी 
+          wavy-bottom खाली दिसेल.
+      */}
+      <body className="min-h-screen flex flex-col bg-[#eef3f6] text-slate-800 antialiased">
+        {/* Main Wrapper */}
+        <main className="flex-grow w-full">{children}</main>
+
+        {/* Optional: Footer or global wave at the bottom */}
+        <footer className="w-full mt-auto">
+          {/* Tuza footer ithe yeil */}
+        </footer>
+      </body>
     </html>
   );
 }

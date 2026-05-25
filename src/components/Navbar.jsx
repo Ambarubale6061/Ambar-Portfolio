@@ -22,6 +22,13 @@ const navLinks = [
   { name: "Contact", href: "#contact", icon: Mail },
 ];
 
+// Filtered list for the 5 specific mobile quick-access icons
+const mobileQuickLinks = navLinks.filter((link) =>
+  ["About", "Services", "Projects", "Experience", "Contact"].includes(
+    link.name,
+  ),
+);
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -42,11 +49,24 @@ export default function Navbar() {
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/Ambar_Resume.pdf";
+    link.href = "/Resume.pdf";
     link.download = "Ambar_Resume.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    const heroSection = document.getElementById("hero");
+
+    if (heroSection) {
+      heroSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // Fallback to top if ID element isn't found
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    setActiveTab("About");
   };
 
   return (
@@ -60,10 +80,7 @@ export default function Navbar() {
           {/* Name */}
           <a
             href="#hero"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            onClick={handleLogoClick}
             className="text-2xl font-extrabold tracking-tighter select-none"
           >
             <span className="text-cyan-500">Am</span>bar
@@ -111,24 +128,28 @@ export default function Navbar() {
 
       {/* --- MOBILE FLOATING NAV --- */}
       <nav
-        className={`md:hidden fixed bottom-6 left-4 right-4 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${visible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
+        className={`md:hidden fixed bottom-5 left-3 right-3 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${visible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
       >
-        <div className="flex items-center justify-between px-4 py-3 rounded-full bg-white/60 backdrop-blur-2xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.1)]">
-          {navLinks.slice(0, 4).map((link) => (
+        {/* Made more compact: reduced padding from px-4 py-3 to px-2 py-1.5, adjusted gap */}
+        <div className="flex items-center justify-between gap-1 px-2 py-1.5 rounded-full bg-white/60 backdrop-blur-2xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.1)]">
+          {mobileQuickLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={() => setActiveTab(link.name)}
-              className={`p-3 rounded-full transition-all duration-300 ${activeTab === link.name ? "bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.5)]" : "text-gray-600"}`}
+              // Made button size more compact: reduced padding from p-3 to p-2.5
+              className={`p-2.5 rounded-full transition-all duration-300 ${activeTab === link.name ? "bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.5)]" : "text-gray-600"}`}
             >
-              <link.icon className="w-5 h-5" />
+              {/* Scaled down icon size from w-5 h-5 to w-4 h-4 for clean alignment with 5 icons */}
+              <link.icon className="w-4 h-4" />
             </a>
           ))}
           <button
             onClick={() => setIsOpen(true)}
-            className="p-3 rounded-full bg-gray-900 text-white shadow-lg"
+            // Scaled down padding from p-3 to p-2.5 to match the links perfectly
+            className="p-2.5 rounded-full bg-gray-900 text-white shadow-lg"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-4 h-4" />
           </button>
         </div>
       </nav>
@@ -145,9 +166,17 @@ export default function Navbar() {
           className={`absolute bottom-0 w-full bg-white/90 backdrop-blur-3xl rounded-t-[32px] p-6 border-t border-white/50 transition-transform duration-500 ${isOpen ? "translate-y-0" : "translate-y-full"}`}
         >
           <div className="flex justify-between items-center mb-6 px-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
-              Navigation
-            </span>
+            {/* Clickable Mobile Sheet Logo Title */}
+            <a
+              href="#hero"
+              onClick={(e) => {
+                handleLogoClick(e);
+                setIsOpen(false);
+              }}
+              className="text-lg font-extrabold tracking-tighter select-none"
+            >
+              <span className="text-cyan-500">Am</span>bar
+            </a>
             <button onClick={() => setIsOpen(false)} className="p-1">
               <X className="w-6 h-6" />
             </button>

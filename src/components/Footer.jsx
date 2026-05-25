@@ -14,9 +14,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    /* बदल: इथे bg-neutral काढून पूर्णपणे प्रीमियम मऊ ग्लास-इफेक्ट दिला आहे 
-       ज्यामुळे बॅकग्राउंडचे रंग फुटरच्या आरपार हुबेहूब ओरिजिनल इमेजसारखे ट्रान्सपरंट दिसतील */
-    <footer className="w-full bg-white/20 backdrop-blur-xl border-t border-white/40 py-16 px-6 sm:px-12 md:px-20 lg:px-32 relative z-10">
+    <footer className="w-full bg-white/20 backdrop-blur-xl border-t border-white/40 py-16 px-6 sm:px-12 md:px-20 lg:px-32 relative z-10 block">
       <div className="max-w-3xl mx-auto w-full flex flex-col items-center justify-center text-center">
         {/* Brand Name Title */}
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-2">

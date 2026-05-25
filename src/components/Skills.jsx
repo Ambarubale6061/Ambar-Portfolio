@@ -33,7 +33,6 @@ import {
   Code,
 } from "lucide-react";
 
-// ─── Skill data (No changes here, keeping existing data structured) ──────────
 const skillData = {
   interface: [
     { name: "React", Icon: Atom, color: "#0ea5e9" },
@@ -85,7 +84,6 @@ const skillData = {
   ],
 };
 
-// ─── Card metadata ────────────────────────────────────────────────────────────
 const CARDS = [
   { key: "interface", title: "Interface & Experience" },
   { key: "core", title: "Core & Intelligence" },
@@ -93,7 +91,6 @@ const CARDS = [
   { key: "workflow", title: "DevOps & Workflow" },
 ];
 
-// ─── Pure Smooth 3D Carousel Card (UPDATED TO WHITE/GLASS THEME) ──────────────
 const SkillCard = memo(function SkillCard({ skills, title }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -110,10 +107,8 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      /* बदल: डार्क बॅकग्राउंड काढून bg-white/70 ग्लास फिनिश दिला आहे */
       className="relative h-[330px] w-full bg-white/70 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden flex flex-col justify-between p-5 group hover:shadow-md hover:border-slate-200 transition-all duration-500"
     >
-      {/* Dynamic Brand Glow Backdrop (Softened for Light Theme) */}
       <div
         className="absolute inset-0 opacity-[0.08] blur-[60px] pointer-events-none transition-all duration-1000 ease-in-out"
         style={{
@@ -121,7 +116,6 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
         }}
       />
 
-      {/* Header Container */}
       <div className="relative z-30 w-full text-left">
         <h3 className="text-[11px] font-bold tracking-[0.15em] uppercase text-slate-400 font-mono">
           {title}
@@ -129,7 +123,6 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
         <div className="h-[1px] w-6 bg-slate-200 mt-1.5 transition-all duration-500 group-hover:w-12 group-hover:bg-slate-400" />
       </div>
 
-      {/* 3D Horizon Stage Layer */}
       <div
         className="relative w-full flex-grow flex items-center justify-center select-none"
         style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
@@ -180,7 +173,6 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
                 transformStyle: "preserve-3d",
               }}
             >
-              {/* बदल: आतील टेक स्टॅक कार्ड्स आता व्हाईट ग्लास (bg-white/90) मध्ये आहेत */}
               <div
                 className="w-[110px] h-[150px] rounded-xl border flex flex-col items-center justify-between p-3 relative bg-white/90 transition-all duration-300 shadow-xs"
                 style={{
@@ -192,10 +184,8 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
                     : "0 4px 12px rgba(0, 0, 0, 0.03)",
                 }}
               >
-                {/* Micro Top Rim Line */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/5 to-transparent" />
 
-                {/* Center Vector Icon Logo Layer */}
                 <div className="flex-grow flex items-center justify-center w-full pt-2">
                   <div
                     className="p-2.5 rounded-xl border transition-colors duration-500 bg-slate-50"
@@ -213,7 +203,6 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
                   </div>
                 </div>
 
-                {/* Name Label */}
                 <div className="w-full text-center pb-0.5">
                   <span
                     className="text-[10px] font-bold tracking-wide block truncate transition-colors duration-500"
@@ -231,13 +220,15 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
   );
 });
 
-// ─── Main Section Wrapper ─────────────────────────────────────────────────────
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 sm:py-28 scroll-mt-24 relative">
-      <div className="max-w-5xl mx-auto">
-        {/* Section Header - बदल: हेडिंग आता अगदी Contact फॉर्म सारखीच मॅचिंग केली आहे */}
-        <div className="text-center mb-12">
+    /* मुख्य बदल: Unified standard page wrapper grid layouts & paddings (max-w-7xl px-6 sm:px-10 lg:px-16) to align flawlessly with the portfolio structure */
+    <section
+      id="skills"
+      className="py-20 sm:py-28 scroll-mt-24 relative w-full"
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+        <div className="text-center mb-14">
           <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
             Skills &amp;{" "}
             <span
@@ -250,7 +241,6 @@ export default function Skills() {
               Expertise
             </span>
           </p>
-          {/* Accent Line */}
           <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
           <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg font-normal">
             Engineered using a high-fidelity 3D structural carousel loop layout
@@ -258,8 +248,7 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* 2-Column Matrix Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
           {CARDS.map(({ key, title }) => (
             <SkillCard key={key} skills={skillData[key]} title={title} />
           ))}

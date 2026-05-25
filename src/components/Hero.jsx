@@ -57,12 +57,11 @@ export const Hero = memo(function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen flex items-center bg-slate-50 overflow-hidden z-10 select-none"
+      className="relative w-full min-h-screen flex items-center overflow-hidden z-10 select-none"
     >
       {/* 1. PREMIUM LIVE BACKGROUND WITH CURVED LAYOUTS & WAVES */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Top Left Soft Glow Wave */}
-        <div className="absolute -top-40 -left-40 w-150 h-150 bg-linear-to-br from-blue-200/30 via-cyan-100/20 to-transparent rounded-full blur-3xl" />
+        {/* Top Left Soft Glow Wave — removed */}
 
         {/* Top Right Animated Connection Network Grid */}
         <svg
@@ -95,50 +94,9 @@ export const Hero = memo(function Hero() {
           />
         </svg>
 
-        {/* Bottom Giant Premium Curved Layout Waves */}
-        <svg
-          className="absolute bottom-0 right-0 w-full h-[75%] text-slate-200/60 hidden md:block"
-          viewBox="0 0 1440 800"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M1440 250C1250 350 1050 150 850 300C650 450 450 320 200 550C80 650 0 720 0 800H1440V250Z"
-            fill="#cbd5e1"
-            opacity="0.4"
-          />
-          <path
-            d="M1440 400C1150 420 980 200 750 380C520 560 300 480 0 800H1440V400Z"
-            fill="url(#wave_gradient)"
-            opacity="0.85"
-          />
-          <defs>
-            <linearGradient
-              id="wave_gradient"
-              x1="720"
-              y1="200"
-              x2="1100"
-              y2="800"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#e2e8f0" />
-              <stop offset="0.6" stopColor="#cbd5e1" />
-              <stop offset="1" stopColor="#94a3b8" />
-            </linearGradient>
-          </defs>
-        </svg>
+        {/* Bottom Giant Premium Curved Layout Waves — removed */}
 
-        {/* Glowing Energy Light Streaks */}
-        <motion.div
-          animate={{
-            x: [-40, 60, -40],
-            y: [0, -30, 0],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-[20%] right-[15%] w-60 h-8 bg-linear-to-r from-cyan-400 to-blue-400 blur-xl rounded-full transform rotate-[-30deg] hidden md:block"
-        />
+        {/* Glowing Energy Light Streaks — removed */}
       </div>
 
       {/* 2. MAIN CORE CONTENT GRID */}
@@ -147,16 +105,16 @@ export const Hero = memo(function Hero() {
         <div className="w-full md:w-[45%] text-center md:text-left flex flex-col gap-5">
           <motion.div
             {...fadeUp(0.05)}
-            className="text-[15px] md:text-[17px] font-medium tracking-wide text-slate-600"
+            className="text-[17px] md:text-[20px] font-medium tracking-wide text-black"
           >
             Hi, I&apos;m{" "}
-            <span className="text-blue-600 font-semibold">Ambar</span>
+            <span className="text-cyan-500 font-semibold">Ambar</span>
           </motion.div>
 
           <motion.h1
             {...fadeUp(0.15)}
-            className="font-extrabold text-slate-900 leading-[1.1] tracking-tight uppercase"
-            style={{ fontSize: "clamp(2.2rem, 4.5vw, 3.8rem)" }}
+            className="font-extrabold text-black leading-[1.1] tracking-tight uppercase"
+            style={{ fontSize: "clamp(2.2rem, 3.6vw, 3.2rem)" }}
           >
             <TypeAnimation
               sequence={[
@@ -173,15 +131,15 @@ export const Hero = memo(function Hero() {
               cursor={false}
               style={{ whiteSpace: "pre-line", display: "inline" }}
             />
-            <span className="text-blue-600 animate-pulse ml-1">|</span>
+            <span className="text-cyan-500 animate-pulse ml-1">|</span>
           </motion.h1>
 
           <motion.p
             {...fadeUp(0.25)}
-            className="text-[14px] md:text-[16px] text-slate-600 font-normal max-w-xl"
+            className="text-[14px] md:text-[16px] text-gray-400 font-normal max-w-xl"
           >
             Crafting fast, scalable web apps and AI experiences that{" "}
-            <span className="text-blue-600 font-semibold">
+            <span className="text-cyan-500 font-semibold">
               solve real-world problems.
             </span>
           </motion.p>
@@ -194,7 +152,7 @@ export const Hero = memo(function Hero() {
             <a
               data-hover
               href="#projects"
-              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-slate-900 text-white font-medium text-[11px] tracking-[0.15em] uppercase shadow-sm hover:bg-blue-600 hover:shadow-md transition-all duration-300"
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-black text-white font-medium text-[11px] tracking-[0.15em] uppercase shadow-sm hover:bg-cyan-500 hover:shadow-md transition-all duration-300"
             >
               Explore My Work
               <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-200">
@@ -204,19 +162,17 @@ export const Hero = memo(function Hero() {
 
             <a
               data-hover
-              href="#about"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-slate-300 bg-white/40 backdrop-blur-sm text-slate-700 font-medium text-[11px] tracking-[0.15em] uppercase hover:bg-white hover:border-blue-500 hover:text-blue-600 transition-all duration-200"
+              href="#contact"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-slate-300 bg-white/40 backdrop-blur-sm text-slate-700 font-medium text-[11px] tracking-[0.15em] uppercase hover:bg-cyan-500 hover:border-cyan-500 hover:text-white transition-all duration-200"
             >
-              More About Me
+              Contact Me
             </a>
           </motion.div>
         </div>
 
         {/* RIGHT COMPOSITION: 3D FLOATING TECH ROBOT AVATAR */}
         <div className="w-full md:w-[55%] flex items-center justify-center relative min-h-[450px] md:min-h-[550px]">
-          {/* Background Soft Glow Aura Bases */}
-          <div className="absolute w-80 h-80 md:w-112.5 md:h-112.5 bg-linear-to-tr from-blue-300/20 to-cyan-300/30 rounded-full blur-3xl" />
-          <div className="absolute w-60 h-60 bg-indigo-200/40 rounded-full blur-2xl animate-pulse" />
+          {/* Background Soft Glow Aura Bases — removed */}
 
           {/* 3D ROBOT AVATAR CONTAINER */}
           <motion.div
@@ -385,14 +341,6 @@ export const Hero = memo(function Hero() {
               <div className="absolute -left-4 top-7 w-4.5 h-9 bg-linear-to-b from-slate-700 to-slate-800 rounded-l-md border-y border-l border-slate-950 shadow-md" />
               <div className="absolute -right-4 top-7 w-4.5 h-9 bg-linear-to-b from-slate-700 to-slate-800 rounded-r-md border-y border-r border-slate-950 shadow-md" />
             </div>
-
-            {/* Futuristic Shadow Base below Robot */}
-            <motion.div
-              animate={{ scale: [0.85, 1, 0.85], opacity: [0.25, 0.45, 0.25] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-44 h-5 bg-blue-950/40 blur-md rounded-full mt-6"
-              style={{ transform: "translateZ(-20px)" }}
-            />
           </motion.div>
 
           {/* FLOATING TARGETS & TECH BADGES */}
@@ -469,7 +417,7 @@ export const Hero = memo(function Hero() {
               ease: "easeInOut",
               delay: 0.3,
             }}
-            className="absolute top-8 right-22 md:right-32 p-3 bg-linear-to-tr from-cyan-500 to-blue-600 text-white rounded-full shadow-xl shadow-cyan-500/20 z-10 scale-110"
+            className="absolute top-8 right-16 md:right-24 p-3 bg-linear-to-tr from-cyan-500 to-blue-600 text-white rounded-full shadow-xl shadow-cyan-500/20 z-10 scale-110"
           >
             <Orbit className="w-4.5 h-4.5 animate-spin [animation-duration:9s]" />
           </motion.div>
@@ -481,7 +429,7 @@ export const Hero = memo(function Hero() {
               rotate: [12, -8, 12],
             }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-1/2 right-0 p-3.5 bg-linear-to-tr from-blue-600 via-blue-600 to-cyan-500 text-white rounded-xl shadow-xl z-30 hidden lg:flex items-center justify-center scale-110"
+            className="absolute top-1/2 right-2 p-3.5 bg-linear-to-tr from-blue-600 via-blue-600 to-cyan-500 text-white rounded-xl shadow-xl z-30 hidden lg:flex items-center justify-center scale-110"
           >
             <Braces className="w-4.5 h-4.5 text-white stroke-[2.2]" />
           </motion.div>
@@ -499,27 +447,6 @@ export const Hero = memo(function Hero() {
           </motion.div>
         </div>
       </div>
-
-      {/* SCROLL DOWN INDICATOR */}
-      <motion.a
-        href="#about"
-        data-hover
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.0 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-slate-400 hover:text-blue-600 transition-colors duration-200"
-      >
-        <span className="w-5 h-8 rounded-full border border-slate-300 flex items-start justify-center pt-1.5">
-          <motion.span
-            animate={{ y: [0, 6, 0], opacity: [0.9, 0.2, 0.9] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-1 h-1.5 rounded-full bg-blue-500"
-          />
-        </span>
-        <span className="text-[7.5px] font-bold tracking-[0.35em] uppercase mt-1">
-          Scroll Down
-        </span>
-      </motion.a>
     </section>
   );
 });

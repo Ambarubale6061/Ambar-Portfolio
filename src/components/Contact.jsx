@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   MapPin,
   Mail,
@@ -41,7 +42,7 @@ const INITIAL = { name: "", email: "", subject: "", message: "" };
 
 export default function Contact() {
   const [form, setForm] = useState(INITIAL);
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
@@ -76,9 +77,12 @@ export default function Contact() {
   };
 
   return (
-    /* बदल: पूर्ण सेक्शन बॅकग्राउंड आता ट्रान्सपरंट (bg-transparent) केला आहे */
-    <section
+    <motion.section
       id="contact"
+      initial={{ opacity: 0, y: 80, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.7, ease: "easeInOut" }}
+      viewport={{ once: true, margin: "-100px" }}
       className="w-full max-w-5xl mx-auto py-16 px-6 sm:px-12 scroll-mt-24 bg-transparent relative z-10"
     >
       {/* Section Heading */}
@@ -106,7 +110,6 @@ export default function Contact() {
         {/* Left Side: Contact Info Boxes */}
         <div className="space-y-4">
           {contactDetails.map((item, idx) => (
-            /* बदल: इन्फो बॉक्सेस आता प्युअर व्हाईट (bg-white/70) आणि काचेच्या लूक मध्ये आहेत */
             <div
               key={idx}
               className="flex items-center gap-4 p-4 bg-white/70 backdrop-blur-md border border-white/60 rounded-2xl group hover:border-blue-100 hover:shadow-md transition-all duration-300"
@@ -142,7 +145,6 @@ export default function Contact() {
         </div>
 
         {/* Right Side: Contact Form */}
-        {/* बदल: फॉर्म आता प्युअर व्हाईट (bg-white/70), क्लिअर आणि जास्त आकर्षक केला आहे */}
         <form
           onSubmit={handleSubmit}
           className="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-sm border border-white/60 space-y-4"
@@ -166,7 +168,7 @@ export default function Contact() {
               Email
             </label>
             <input
-              type="type"
+              type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
@@ -238,6 +240,6 @@ export default function Contact() {
           </button>
         </form>
       </div>
-    </section>
+    </motion.section>
   );
 }

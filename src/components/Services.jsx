@@ -77,7 +77,6 @@ export default function Services() {
   const cardRefs = useRef([]);
 
   useEffect(() => {
-    // Heading observer — slightly earlier trigger to match the original -100px margin
     const headingObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -90,7 +89,6 @@ export default function Services() {
       { threshold: 0.1, rootMargin: "-100px 0px" },
     );
 
-    // Card observer — matches the original -60px viewport margin
     const cardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -113,14 +111,12 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" className="py-20 sm:py-28 scroll-mt-24 relative">
-      {/* ─── Scoped styles replacing all framer-motion behaviour ─── */}
+    /* मुख्य बदल: Adjusted overall padding system and width bounds to keep spacing uniform with layout matrix grids */
+    <section
+      id="services"
+      className="py-20 sm:py-28 scroll-mt-24 relative w-full"
+    >
       <style>{`
-        /* Scroll-triggered fade-up */
-        @keyframes svcFadeUp {
-          from { opacity: 0; transform: translateY(var(--svc-from-y, 30px)); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
         .svc-fade {
           opacity: 0;
           transform: translateY(var(--svc-from-y, 30px));
@@ -129,24 +125,23 @@ export default function Services() {
           animation: svcFadeUp var(--svc-duration, 0.55s) ease-out forwards;
           animation-delay: var(--svc-delay, 0s);
         }
-
-        /* Card hover: lift + coloured shadow via CSS custom prop */
+        @keyframes svcFadeUp {
+          from { opacity: 0; transform: translateY(var(--svc-from-y, 30px)); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
         .service-card {
-          box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-          transition: transform 0.28s ease, box-shadow 0.28s ease;
+          box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+          border: 1px solid rgba(0,0,0,0.06);
+          transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
         }
         .service-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 16px 40px -8px var(--card-shadow), 0 2px 12px rgba(0,0,0,0.22);
+          transform: translateY(-5px);
+          box-shadow: 0 20px 38px -10px var(--card-shadow), 0 4px 14px rgba(0,0,0,0.06);
         }
-
-        /* Card tap: subtle scale-down */
         .service-card:active {
           transform: scale(0.985);
           transition-duration: 0.1s;
         }
-
-        /* Icon box: spring-like rotate on direct hover */
         .icon-box {
           transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -156,7 +151,6 @@ export default function Services() {
       `}</style>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-        {/* Section heading */}
         <div
           ref={headingRef}
           className="svc-fade text-center mb-14"
@@ -165,7 +159,7 @@ export default function Services() {
             "--svc-duration": "0.7s",
           }}
         >
-          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">
+          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
             My{" "}
             <span
               className="bg-clip-text text-transparent"
@@ -178,7 +172,6 @@ export default function Services() {
             </span>
           </p>
 
-          {/* Underline accent */}
           <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
 
           <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
@@ -187,15 +180,15 @@ export default function Services() {
           </p>
         </div>
 
-        {/* Service cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* बदल: Changed grid columns layout spacing structure for better alignment across breakpoints */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => {
             const Icon = s.icon;
             return (
               <div
                 key={s.title}
                 ref={(el) => (cardRefs.current[i] = el)}
-                className={`svc-fade service-card group relative rounded-2xl bg-gradient-to-br ${s.bg} p-5 overflow-hidden cursor-default`}
+                className={`svc-fade service-card group relative rounded-2xl bg-gradient-to-br ${s.bg} p-6 overflow-hidden cursor-default`}
                 style={{
                   "--svc-from-y": "30px",
                   "--svc-delay": `${i * 0.06}s`,
@@ -204,19 +197,16 @@ export default function Services() {
                   willChange: "transform",
                 }}
               >
-                {/* Gradient glow overlay on hover */}
                 <div
                   className={`absolute -inset-px rounded-2xl bg-gradient-to-br ${s.accent} opacity-0 group-hover:opacity-[0.12] blur-xl transition-opacity duration-500 -z-10`}
                 />
 
-                {/* Top-right ambient glow */}
                 <div
                   className={`absolute -top-16 -right-16 w-36 h-36 rounded-full bg-gradient-to-br ${s.accent} opacity-[0.12] blur-2xl pointer-events-none transition-opacity duration-500 group-hover:opacity-[0.28]`}
                 />
 
-                {/* Icon box */}
                 <div
-                  className={`icon-box relative w-11 h-11 rounded-xl bg-gradient-to-br ${s.accent} flex items-center justify-center text-white mb-4`}
+                  className={`icon-box relative w-11 h-11 rounded-xl bg-gradient-to-br ${s.accent} flex items-center justify-center text-white mb-5`}
                   style={{ boxShadow: `0 8px 24px -8px ${s.shadow}` }}
                 >
                   <Icon className="w-5 h-5" strokeWidth={2.2} />
@@ -225,20 +215,18 @@ export default function Services() {
                   />
                 </div>
 
-                {/* Text content */}
-                <h4 className="text-base font-bold text-gray-900 tracking-tight mb-1.5">
+                <h4 className="text-base font-bold text-gray-900 tracking-tight mb-2">
                   {s.title}
                 </h4>
                 <p className="text-xs text-gray-500 leading-relaxed mb-4">
                   {s.blurb}
                 </p>
 
-                {/* Deliverables list */}
-                <ul className="space-y-1.5">
+                <ul className="space-y-2">
                   {s.deliverables.map((d) => (
                     <li
                       key={d}
-                      className="flex items-center gap-2 text-xs text-gray-500"
+                      className="flex items-center gap-2 text-xs text-gray-500 font-normal"
                     >
                       <span
                         className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${s.accent} flex-shrink-0`}
