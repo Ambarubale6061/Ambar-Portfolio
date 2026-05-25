@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
-/* ब्राउझरची मूळ हाईट लॉक करण्यासाठी */
+html {
+  overflow-x: hidden;
+}
+
 html,
 body {
   height: 100%;
@@ -10,7 +13,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  background-color: #eef3f6; /* रिफ्रेश होताना पांढरा फ्लॅश येऊ नये म्हणून */
+  background-color: #eef3f6;
 }
 
 body {
@@ -23,8 +26,6 @@ body {
     Roboto,
     sans-serif;
   -webkit-font-smoothing: antialiased;
-
-  /* मुख्य फिक्स: फ्लेक्स बॉक्सद्वारे व्हर्टिकल रचना सक्तीची केली */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -32,7 +33,6 @@ body {
   overflow-y: auto;
 }
 
-/* --- मऊ आणि संथ ॲनिमेशन इफेक्ट्स --- */
 @keyframes floatSlow {
   0%,
   100% {
@@ -60,7 +60,6 @@ body {
   animation: floatDelayed 24s ease-in-out infinite;
 }
 
-/* --- ग्लास-मॉर्मिक मऊ कार्ड्स --- */
 .glass-card {
   background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(20px);
