@@ -81,9 +81,9 @@ export default function Navbar() {
           <a
             href="#hero"
             onClick={handleLogoClick}
-            className="text-2xl font-extrabold tracking-tighter select-none"
+            className="flex items-center select-none cursor-pointer transition-transform duration-300"
           >
-            <span className="text-cyan-500">Am</span>bar
+            <img src="/logoambar.png" alt="Logo" className="h-10 w-auto" />
           </a>
 
           {/* Capsule — off-white background + magic underline on links */}
@@ -166,16 +166,16 @@ export default function Navbar() {
           className={`absolute bottom-0 w-full bg-white/90 backdrop-blur-3xl rounded-t-[32px] p-6 border-t border-white/50 transition-transform duration-500 ${isOpen ? "translate-y-0" : "translate-y-full"}`}
         >
           <div className="flex justify-between items-center mb-6 px-2">
-            {/* Clickable Mobile Sheet Logo Title */}
+            {/* Clickable Mobile Sheet Logo Image */}
             <a
               href="#hero"
               onClick={(e) => {
                 handleLogoClick(e);
                 setIsOpen(false);
               }}
-              className="text-lg font-extrabold tracking-tighter select-none"
+              className="select-none cursor-pointer"
             >
-              <span className="text-cyan-500">Am</span>bar
+              <img src="/logoambar.png" alt="Logo" className="h-8 w-auto" />
             </a>
             <button onClick={() => setIsOpen(false)} className="p-1">
               <X className="w-6 h-6" />

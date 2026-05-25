@@ -5,7 +5,7 @@ import { ArrowDownToLine } from "lucide-react";
 export default function About() {
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/Ambar_Resume.pdf";
+    link.href = "/Resume.pdf";
     link.download = "Ambar_Resume.pdf";
     document.body.appendChild(link);
     link.click();
@@ -17,13 +17,20 @@ export default function About() {
       id="about"
       className="py-20 sm:py-32 scroll-mt-24 relative z-10 w-full overflow-hidden"
     >
-      {/* 1. PREMIUM LAYERED BACKGROUND SYSTEM (Removed image layer) */}
+      {/* 1. REFINED PREMIUM LAYERED BACKGROUND SYSTEM */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Top-Right Glowing Aura */}
-        <div className="absolute -top-40 right-[-10%] w-160 h-160 bg-linear-to-bl from-blue-200/20 via-cyan-100/30 to-transparent rounded-full blur-3xl" />
+        {/* Soft Radial Gradient Orbs */}
+        <div className="absolute -top-40 right-[-10%] w-160 h-160 bg-blue-100/30 rounded-full blur-[120px]" />
+        <div className="absolute -bottom-20 -left-20 w-140 h-140 bg-cyan-100/30 rounded-full blur-[120px]" />
 
-        {/* Bottom-Left Ambient Light Layer */}
-        <div className="absolute -bottom-20 -left-20 w-140 h-140 bg-linear-to-tr from-indigo-100/20 via-cyan-100/20 to-transparent rounded-full blur-3xl" />
+        {/* Subtle Mesh Grid */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: "radial-gradient(#0891b2 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
 
         {/* Structural Tech Layout Grid System */}
         <svg
@@ -65,7 +72,7 @@ export default function About() {
       {/* 2. MAIN CORE LAYOUT CONTAINER */}
       <div className="max-w-[1400px] mx-auto px-6 sm:px-12 md:pl-24 md:pr-12 lg:pl-32 lg:pr-20 relative z-20">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-          {/* Right Side: Image */}
+          {/* Right Side: Enhanced Image Container */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -73,12 +80,14 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="w-full lg:w-[420px] flex justify-center order-1 lg:order-2"
           >
-            <div className="relative w-full max-w-[280px] sm:max-w-[350px] lg:max-w-none">
-              <div className="relative overflow-hidden rounded-2xl shadow-lg">
+            <div className="relative w-full max-w-[280px] sm:max-w-[350px] lg:max-w-none group">
+              {/* Glassmorphism Border/Shadow Effect */}
+              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/50 -rotate-2 group-hover:rotate-0 transition-transform duration-500" />
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-white/20">
                 <img
                   src="/am1.png"
                   alt="Ambar - Software Developer"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </div>
