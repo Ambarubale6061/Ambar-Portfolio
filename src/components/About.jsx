@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { ArrowDownToLine } from "lucide-react";
+import { ArrowDownToLine, Briefcase, Users, FolderKanban } from "lucide-react";
 
 export default function About() {
   const handleDownload = () => {
@@ -15,149 +15,116 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-20 sm:py-32 scroll-mt-24 relative z-10 w-full overflow-hidden"
+      className="py-20 sm:py-32 relative w-full overflow-hidden bg-[#f8fafc]"
     >
-      {/* 1. REFINED PREMIUM LAYERED BACKGROUND SYSTEM */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Soft Radial Gradient Orbs */}
-        <div className="absolute -top-40 right-[-10%] w-160 h-160 bg-blue-100/30 rounded-full blur-[120px]" />
-        <div className="absolute -bottom-20 -left-20 w-140 h-140 bg-cyan-100/30 rounded-full blur-[120px]" />
+      {/* Modern Stylish Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large Decorative Blurs */}
+        <div className="absolute top-[-20%] left-[10%] w-[500px] h-[500px] bg-cyan-200/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-20%] right-[5%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[140px]" />
 
-        {/* Subtle Mesh Grid */}
+        {/* Subtle Grid Lines */}
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0"
           style={{
-            backgroundImage: "radial-gradient(#0891b2 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
+            backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+            maskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent)",
           }}
         />
 
-        {/* Structural Tech Layout Grid System */}
-        <svg
-          className="absolute inset-0 w-full h-full text-slate-300/30 hidden md:block"
-          viewBox="0 0 1440 800"
-          preserveAspectRatio="none"
-        >
-          <line
-            x1="120"
-            y1="0"
-            x2="120"
-            y2="800"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            strokeDasharray="4 4"
-          />
-          <line
-            x1="720"
-            y1="0"
-            x2="720"
-            y2="800"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            strokeDasharray="8 4"
-            opacity="0.5"
-          />
-          <line
-            x1="1320"
-            y1="0"
-            x2="1320"
-            y2="800"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            strokeDasharray="4 4"
-          />
-        </svg>
+        {/* Glassmorphism Overlay */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
       </div>
 
-      {/* 2. MAIN CORE LAYOUT CONTAINER */}
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-12 md:pl-24 md:pr-12 lg:pl-32 lg:pr-20 relative z-20">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-          {/* Right Side: Enhanced Image Container */}
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-12 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 items-center">
+          {/* Left Side: Enlarged Image Container */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="w-full lg:w-[420px] flex justify-center order-1 lg:order-2"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="w-full lg:w-[480px] flex-shrink-0"
           >
-            <div className="relative w-full max-w-[280px] sm:max-w-[350px] lg:max-w-none group">
-              {/* Glassmorphism Border/Shadow Effect */}
-              <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-2xl border border-white/50 -rotate-2 group-hover:rotate-0 transition-transform duration-500" />
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-white/20">
+            <div className="relative group perspective-1000">
+              <div className="absolute -inset-2 bg-cyan-500 rounded-3xl opacity-20 rotate-0 group-hover:rotate-2 transition-transform duration-500" />
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl border border-white/50 rotate-2 group-hover:rotate-0 transition-transform duration-500 ease-out">
                 <img
                   src="/am1.png"
                   alt="Ambar - Software Developer"
-                  className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
+                  className="w-full h-auto object-cover"
                 />
               </div>
             </div>
           </motion.div>
 
-          {/* Left Side: Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="flex-1 space-y-6 sm:space-y-8 order-2 lg:order-1"
-          >
+          {/* Right Side: Content */}
+          <div className="flex-1 space-y-8">
             <div>
               <h2 className="text-xs font-mono text-cyan-500 uppercase tracking-widest mb-2">
                 About
               </h2>
               <div className="w-16 h-[2px] bg-cyan-500 mb-5 rounded-full"></div>
-              <h3 className="text-2xl sm:text-4xl font-semibold mb-6 leading-tight">
+              <h3 className="text-3xl sm:text-4xl font-semibold mb-6">
                 <span className="text-black">Get to</span>{" "}
                 <span className="text-cyan-500">Know Me</span>
               </h3>
-            </div>
 
-            <div className="space-y-4 text-black text-sm sm:text-base leading-relaxed font-light">
-              <p>
-                I am Ambar, a Software Developer who enjoys building efficient,
-                scalable, and user-friendly web applications. I have hands-on
-                experience in both frontend and backend technologies, and I
-                focus on writing clean code and creating smooth user
-                experiences.
-              </p>
-              <p>
-                My journey started with curiosity about how digital products
-                work, which grew into building real-world applications. I also
-                explore AI-based features and try to integrate them into
-                projects wherever useful. I enjoy solving problems and
-                continuously learning new technologies.
-              </p>
-            </div>
-
-            <div className="pt-2">
-              <button
-                onClick={handleDownload}
-                className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-slate-300 bg-white/50 backdrop-blur-xs text-slate-700 font-medium text-[11px] tracking-[0.15em] uppercase hover:bg-slate-900 hover:text-white hover:border-slate-900 shadow-xs transition-all duration-300 cursor-pointer"
-              >
-                Download Resume
-                <ArrowDownToLine className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400 group-hover:translate-y-0.5 transition-all duration-200" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t border-gray-200">
-              <div className="space-y-1">
-                <div className="text-xl font-semibold text-cyan-500">15+</div>
-                <div className="text-xs text-gray-400">Projects Completed</div>
+              <div className="space-y-4 text-gray-800 text-base leading-relaxed font-medium">
+                <p>
+                  I am Ambar, a Software Developer who enjoys building
+                  efficient, scalable, and user-friendly web applications. I
+                  have hands-on experience in both frontend and backend
+                  technologies, and I focus on writing clean code and creating
+                  smooth user experiences.
+                </p>
+                <p>
+                  My journey started with curiosity about how digital products
+                  work, which grew into building real-world applications. I also
+                  explore AI-based features and try to integrate them into
+                  projects wherever useful.
+                </p>
               </div>
-              <div className="space-y-1">
-                <div className="text-xl font-semibold text-cyan-500">
-                  Full Stack
+            </div>
+
+            {/* Button: Black with Cyan Hover */}
+            <button
+              onClick={handleDownload}
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-slate-900 bg-slate-900 text-white font-medium text-[11px] tracking-[0.15em] uppercase hover:bg-cyan-500 hover:border-cyan-500 shadow-sm transition-all"
+            >
+              Download Resume
+              <ArrowDownToLine className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Center-Aligned Stats Cards: Cyan Text */}
+            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-gray-200">
+              {[
+                { icon: Briefcase, title: "Experience", desc: "2+ Years" },
+                { icon: Users, title: "Clients", desc: "10+ Total" },
+                {
+                  icon: FolderKanban,
+                  title: "Projects",
+                  desc: "15+ Completed",
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col items-center justify-center text-center gap-2"
+                >
+                  <item.icon className="w-6 h-6 text-cyan-500 mb-1" />
+                  <div>
+                    <div className="text-sm font-bold text-black">
+                      {item.title}
+                    </div>
+                    <div className="text-xs font-medium text-gray-600">
+                      {item.desc}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-400">Development Focus</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-xl font-semibold text-cyan-500">
-                  Real-Time
-                </div>
-                <div className="text-xs text-gray-400">System Experience</div>
-              </div>
+              ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
