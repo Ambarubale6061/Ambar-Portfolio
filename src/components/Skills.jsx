@@ -222,14 +222,34 @@ const SkillCard = memo(function SkillCard({ skills, title }) {
 
 export default function Skills() {
   return (
-    /* मुख्य बदल: Unified standard page wrapper grid layouts & paddings (max-w-7xl px-6 sm:px-10 lg:px-16) to align flawlessly with the portfolio structure */
     <section
       id="skills"
-      className="py-20 sm:py-28 scroll-mt-24 relative w-full"
+      className="py-20 sm:py-32 scroll-mt-24 relative w-full overflow-hidden bg-[#f8fafc]"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+      {/* Modern Stylish Background Matched From about.jsx */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large Decorative Blurs */}
+        <div className="absolute top-[-20%] left-[10%] w-[500px] h-[500px] bg-cyan-200/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-20%] right-[5%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[140px]" />
+
+        {/* Subtle Grid Lines */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+            maskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent)",
+          }}
+        />
+
+        {/* Glassmorphism Overlay */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 relative z-10">
         <div className="text-center mb-14">
-          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
+          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-black">
             Skills &amp;{" "}
             <span
               className="bg-clip-text text-transparent"
@@ -242,7 +262,7 @@ export default function Skills() {
             </span>
           </p>
           <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
-          <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg font-normal">
+          <p className="text-gray-800 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
             Engineered using a high-fidelity 3D structural carousel loop layout
             configured for optimal performance interfaces.
           </p>

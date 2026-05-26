@@ -111,10 +111,9 @@ export default function Services() {
   }, []);
 
   return (
-    /* मुख्य बदल: Adjusted overall padding system and width bounds to keep spacing uniform with layout matrix grids */
     <section
       id="services"
-      className="py-20 sm:py-28 scroll-mt-24 relative w-full"
+      className="py-20 sm:py-28 scroll-mt-24 relative w-full overflow-hidden bg-[#f8fafc]"
     >
       <style>{`
         .svc-fade {
@@ -150,7 +149,28 @@ export default function Services() {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+      {/* Modern Stylish Background Matched From about.jsx */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large Decorative Blurs */}
+        <div className="absolute top-[-20%] left-[10%] w-[500px] h-[500px] bg-cyan-200/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-20%] right-[5%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[140px]" />
+
+        {/* Subtle Grid Lines */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+            maskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent)",
+          }}
+        />
+
+        {/* Glassmorphism Overlay */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 relative z-10">
         <div
           ref={headingRef}
           className="svc-fade text-center mb-14"
@@ -159,7 +179,7 @@ export default function Services() {
             "--svc-duration": "0.7s",
           }}
         >
-          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
+          <p className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-black">
             My{" "}
             <span
               className="bg-clip-text text-transparent"
@@ -174,13 +194,12 @@ export default function Services() {
 
           <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
 
-          <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
+          <p className="text-gray-800 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
             Solutions focused on performance, scalability, and real-world
             impact.
           </p>
         </div>
 
-        {/* बदल: Changed grid columns layout spacing structure for better alignment across breakpoints */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => {
             const Icon = s.icon;

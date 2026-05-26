@@ -57,11 +57,27 @@ export const Hero = memo(function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen flex items-center overflow-hidden z-10 select-none"
+      className="relative w-full min-h-screen flex items-center overflow-hidden z-10 select-none bg-[#f8fafc]"
     >
-      {/* 1. PREMIUM LIVE BACKGROUND WITH CURVED LAYOUTS & WAVES */}
+      {/* 1. PREMIUM LIVE BACKGROUND MATCHED TO ABOUT.JSX */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Top Left Soft Glow Wave — removed */}
+        {/* Large Decorative Blurs */}
+        <div className="absolute top-[-20%] left-[10%] w-[500px] h-[500px] bg-cyan-200/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-20%] right-[5%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[140px]" />
+
+        {/* Subtle Grid Lines */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+            maskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent)",
+          }}
+        />
+
+        {/* Glassmorphism Overlay */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
 
         {/* Top Right Animated Connection Network Grid */}
         <svg
@@ -93,10 +109,6 @@ export const Hero = memo(function Hero() {
             strokeWidth="0.5"
           />
         </svg>
-
-        {/* Bottom Giant Premium Curved Layout Waves — removed */}
-
-        {/* Glowing Energy Light Streaks — removed */}
       </div>
 
       {/* 2. MAIN CORE CONTENT GRID */}
@@ -136,7 +148,7 @@ export const Hero = memo(function Hero() {
 
           <motion.p
             {...fadeUp(0.25)}
-            className="text-[14px] md:text-[16px] text-gray-400 font-normal max-w-xl"
+            className="text-[14px] md:text-[16px] text-gray-800 font-medium max-w-xl leading-relaxed"
           >
             Crafting fast, scalable web apps and AI experiences that{" "}
             <span className="text-cyan-500 font-semibold">
@@ -152,7 +164,7 @@ export const Hero = memo(function Hero() {
             <a
               data-hover
               href="#projects"
-              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-black text-white font-medium text-[11px] tracking-[0.15em] uppercase shadow-sm hover:bg-cyan-500 hover:shadow-md transition-all duration-300"
+              className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-slate-900 bg-slate-900 text-white font-medium text-[11px] tracking-[0.15em] uppercase hover:bg-cyan-500 hover:border-cyan-500 shadow-sm transition-all duration-300"
             >
               Explore My Work
               <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-200">
@@ -163,7 +175,7 @@ export const Hero = memo(function Hero() {
             <a
               data-hover
               href="#contact"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-slate-300 bg-white/40 backdrop-blur-sm text-slate-700 font-medium text-[11px] tracking-[0.15em] uppercase hover:bg-cyan-500 hover:border-cyan-500 hover:text-white transition-all duration-200"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-slate-900 bg-slate-900 text-white font-medium text-[11px] tracking-[0.15em] uppercase hover:bg-cyan-500 hover:border-cyan-500 shadow-sm transition-all duration-200"
             >
               Contact Me
             </a>
@@ -172,8 +184,6 @@ export const Hero = memo(function Hero() {
 
         {/* RIGHT COMPOSITION: 3D FLOATING TECH ROBOT AVATAR */}
         <div className="w-full md:w-[55%] flex items-center justify-center relative min-h-[450px] md:min-h-[550px]">
-          {/* Background Soft Glow Aura Bases — removed */}
-
           {/* 3D ROBOT AVATAR CONTAINER */}
           <motion.div
             animate={{

@@ -239,12 +239,33 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="w-full py-20 bg-transparent relative z-10 scroll-mt-20"
+      className="w-full py-20 bg-[#f8fafc] relative overflow-hidden scroll-mt-20"
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+      {/* Modern Stylish Background Matched From about.jsx */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large Decorative Blurs */}
+        <div className="absolute top-[-20%] left-[10%] w-[500px] h-[500px] bg-cyan-200/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-20%] right-[5%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[140px]" />
+
+        {/* Subtle Grid Lines */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+            maskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent)",
+          }}
+        />
+
+        {/* Glassmorphism Overlay */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 relative z-10">
         {/* Section Header */}
         <div className="mb-16 text-center">
-          <p className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight text-slate-900">
+          <p className="text-3xl sm:text-5xl font-bold mb-4 tracking-tight text-black">
             Featured{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-600">
               Projects
@@ -253,7 +274,7 @@ export default function Projects() {
 
           <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
 
-          <p className="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base font-medium">
+          <p className="text-gray-800 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
             A selection of my recent work showcasing full-stack capabilities and
             smart architecture.
           </p>

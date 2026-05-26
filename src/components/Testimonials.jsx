@@ -141,99 +141,121 @@ export default function Testimonials() {
   };
 
   return (
-    /* बदल: पूर्ण सेक्शन बॅकग्राउंड आता ट्रान्सपरंट (bg-transparent) केला आहे */
     <section
       id="testimonials"
-      className="w-full py-20 overflow-hidden bg-transparent relative z-10"
+      className="w-full py-20 bg-[#f8fafc] relative overflow-hidden scroll-mt-20"
     >
-      {/* Section Heading */}
-      <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
-        <h3 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-slate-900">
-          Kind Words From{" "}
-          <span
-            className="bg-clip-text text-transparent"
-            style={{
-              backgroundImage:
-                "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
-            }}
-          >
-            Satisfied Clients
-          </span>
-        </h3>
-        <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
-        <p className="text-gray-500 max-w-2xl mx-auto text-sm sm:text-lg">
-          What the people I&apos;ve worked with have to say.
-        </p>
+      {/* Modern Stylish Background Matched From about.jsx */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large Decorative Blurs */}
+        <div className="absolute top-[-20%] left-[10%] w-[500px] h-[500px] bg-cyan-200/30 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-20%] right-[5%] w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[140px]" />
+
+        {/* Subtle Grid Lines */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(to right, #cbd5e1 1px, transparent 1px), linear-gradient(to bottom, #cbd5e1 1px, transparent 1px)`,
+            backgroundSize: "40px 40px",
+            maskImage:
+              "radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent)",
+          }}
+        />
+
+        {/* Glassmorphism Overlay */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
       </div>
 
-      {/* Marquee Container with Fade Mask */}
-      <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-        <motion.div
-          ref={trackRef}
-          className="flex gap-6 cursor-grab active:cursor-grabbing py-4 px-2"
-          style={{ x }}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-        >
-          {[...testimonials, ...testimonials].map((t, index) => (
-            /* बदल: कार्ड आता प्युअर व्हाईट (bg-white/70) आणि काचेच्या फिनिशिंगमध्ये (backdrop-blur) आहे 
-               त्यासोबत मजकूर अगदी क्लिअर दिसण्यासाठी टेक्स्ट कलर्स डार्क केले आहेत */
-            <div
-              key={index}
-              className="flex flex-col justify-between shrink-0
-                         w-[280px] sm:w-[350px] md:w-[400px] min-h-[280px]
-                         p-7 bg-white/70 backdrop-blur-md border border-white/60 rounded-2xl shadow-sm
-                         hover:shadow-xl hover:border-blue-100 transition-all duration-300
-                         select-none"
+      <div className="relative z-10">
+        {/* Section Heading */}
+        <div className="max-w-6xl mx-auto px-6 mb-12 text-center">
+          <h3 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight text-black">
+            Kind Words From{" "}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, #06b6d4 0%, #3b82f6 100%)",
+              }}
             >
-              {/* Top row: quote mark + company pill */}
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-5xl text-blue-500 font-serif leading-none select-none">
-                  &ldquo;
-                </span>
-                <span
-                  className="text-[10px] font-bold tracking-widest uppercase text-blue-600
-                             bg-blue-50/80 border border-blue-100 px-2.5 py-1 rounded-full"
-                >
-                  {t.company}
-                </span>
-              </div>
+              Satisfied Clients
+            </span>
+          </h3>
+          <div className="w-20 h-[3px] bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 mx-auto mb-5 rounded-full" />
+          <p className="text-gray-800 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
+            What the people I&apos;ve worked with have to say.
+          </p>
+        </div>
 
-              {/* Testimonial text - All Clear Visibility */}
-              <p className="text-sm leading-relaxed italic text-slate-600 flex-grow mb-6">
-                {t.text}
-              </p>
-
-              {/* Divider + Author */}
-              <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
-                <div
-                  className="w-10 h-10 rounded-full overflow-hidden shrink-0
-                             ring-2 ring-blue-100 bg-slate-100"
-                >
-                  {t.image ? (
-                    <img
-                      src={t.image}
-                      alt={t.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-blue-100 text-xs font-bold text-blue-600">
-                      {t.name.substring(0, 2).toUpperCase()}
-                    </div>
-                  )}
+        {/* Marquee Container with Fade Mask */}
+        <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <motion.div
+            ref={trackRef}
+            className="flex gap-6 cursor-grab active:cursor-grabbing py-4 px-2"
+            style={{ x }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+          >
+            {[...testimonials, ...testimonials].map((t, index) => (
+              <div
+                key={index}
+                className="flex flex-col justify-between shrink-0
+                           w-[280px] sm:w-[350px] md:w-[400px] min-h-[280px]
+                           p-7 bg-white/70 backdrop-blur-md border border-white/60 rounded-2xl shadow-sm
+                           hover:shadow-xl hover:border-blue-100 transition-all duration-300
+                           select-none"
+              >
+                {/* Top row: quote mark + company pill */}
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-5xl text-blue-500 font-serif leading-none select-none">
+                    &ldquo;
+                  </span>
+                  <span
+                    className="text-[10px] font-bold tracking-widest uppercase text-blue-600
+                               bg-blue-50/80 border border-blue-100 px-2.5 py-1 rounded-full"
+                  >
+                    {t.company}
+                  </span>
                 </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-slate-900">
-                    {t.name}
-                  </h4>
-                  <p className="text-xs text-slate-400 font-medium">{t.role}</p>
+
+                {/* Testimonial text - All Clear Visibility */}
+                <p className="text-sm leading-relaxed italic text-slate-700 font-normal flex-grow mb-6">
+                  {t.text}
+                </p>
+
+                {/* Divider + Author */}
+                <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
+                  <div
+                    className="w-10 h-10 rounded-full overflow-hidden shrink-0
+                               ring-2 ring-blue-100 bg-slate-100"
+                  >
+                    {t.image ? (
+                      <img
+                        src={t.image}
+                        alt={t.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-blue-100 text-xs font-bold text-blue-600">
+                        {t.name.substring(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-slate-900">
+                      {t.name}
+                    </h4>
+                    <p className="text-xs text-slate-500 font-medium">
+                      {t.role}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
